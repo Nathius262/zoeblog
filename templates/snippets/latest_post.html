@@ -1,0 +1,9 @@
+<div class="article_home_right_1 clearfix">
+	<h3>LATEST BLOGS</h3>
+	{% for post in latest_posts %}
+		{% for obj in post %}
+			<p><a href="{{obj.get_absolute_url}}">{{obj}}</a></p>
+		{% endfor %}
+	{% endfor %}
+	<p class="border_none_1"><a href="#">Nulla Quis Sem At Nibh Elementum Imperdiet</a></p>
+</div>

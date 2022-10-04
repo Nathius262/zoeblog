@@ -1,0 +1,100 @@
+{% extends 'index.html'%}
+{% load humanize %}
+{% block title %}profile-{{current_user}}{% endblock %}
+
+{% block content %}
+
+<div style="margin-bottom: 300px;" class="container mt-5">
+	<div class="row">
+		<div class="album py-3 text-light">
+			<h2 class="container pb-3">PROFILE</h2>
+		    <div class="container ">
+		        <div class="row">
+		            {% for obj in profile %}
+					<div class="d-md-flex d-block">
+
+						<div style="background-color: #1c1919" class="shadow p-2">
+							<img class="mt-3 container" style="border-radius:50%;" width="200px" src="{{obj.picture_url}}" alt="{{obj.name}}">
+						</div>
+						<div class="container m-4 ">
+							<div class="d-md-flex d-block justify-content-between">
+								<div class="d-block">
+									<h3>{{obj.name}}</h3>
+									<h4>@{{obj.username}}</h4>
+								</div>
+								<div class="d-block">
+									<h6>{{obj.email}}</h6>
+									{% if current_user.login_status %}
+										Login status: active
+									{% else %}
+										<p class="text-secondary">Last login: {{obj.last_login |naturaltime}}</p>
+									{% endif %}
+								</div>
+
+							</div>
+							<div class="d-flex justify-content-between mt-5 mb-0 container">
+								<p class="justify-content-center text-secondary">POSTS <span id="postCount" class="container d-block"></span></p>
+								<p class="justify-content-center text-secondary">Followers<span id="followerCount" class="container d-block"></span></p>
+								<p class="justify-content-center text-secondary">Following<span id="followingCount" class="container d-block "></span></p>
+							</div>
+							 <div class="d-flex justify-content-between">
+                                 {%if current_user == logged_in_user %}
+                                    <a href="{% url 'user:settings' %}" class="btn btn-secondary">Edit Profile</a>
+                                 {% endif %}
+
+								 <form method="POST" id="follow_formId" class="follow_form" data-follower="{{logged_in_user}}" data-user="{{current_user}}">
+								 	{%csrf_token%}
+								 	<button id="follow_btn" class="btn btn-outline-dark text-light" type="submit"></button>
+								 </form>
+								 <script type="text/javascript">
+								 	
+								 	
+								 </script>
+								 <a href="{% url 'account_email' %}" class="btn btn-secondary">Change/Add Email</a>
+                            </div>
+
+						</div>
+					</div>
+		
+		            {% endfor %}
+		        </div>
+				<hr>
+
+				<div class="row">
+					<div class="d-flex justify-content-center">
+						<h3 class="mt-5">All {{profile.first.username}} Posts</h3>
+					</div>
+
+					<div class="row mb-2 mt-5">
+						{% for post in post %}
+						<div class="col-md-6 container">
+						  <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+							<div class="col p-4 d-flex flex-column position-static">
+							  <h3 class="mb-0">{{post.title}}</h3>
+							  <div class="mb-1 text-secondary">{{post.date_updated|date:"M, W"}}</div>
+							  <a href="{{post.get_absolute_url}}" class="stretched-link">Continue reading</a>
+							  <p class="container ">{{post.body|truncatewords:20|safe}}</p>
+							</div>
+
+							<div class="col-auto d-none d-lg-block">
+                            	<div class="" style="background:black; background-image: url('{{post.image_url}}'); background-size: cover; height:250px; width: 200px;"></div>
+							</div>
+						  </div>
+						</div>
+						{% endfor %}
+
+					  </div>
+				</div>
+		    </div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	window.addEventListener('load', () => {
+		postFollow();
+	})
+	
+</script>
+
+{% endblock content %}

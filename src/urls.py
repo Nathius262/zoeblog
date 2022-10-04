@@ -33,7 +33,7 @@ urlpatterns = [
     path('', home_screen_view, name="home"),
     path('search/', search_view, name='search'),
 
-    path('profile/', include('user.urls')),
+    path('profile/', include('user.urls', 'user')),
     path('blog/', include('blog.urls', 'blog')),
 ]
 

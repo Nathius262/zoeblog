@@ -1,0 +1,178 @@
+{% extends 'index.html'%}
+{% load static %}
+{% load humanize %}
+{% load hitcount_tags %}
+{% load social_share %}
+{% block title %}blog{% endblock %}
+
+{% block content %}
+<!---main---->
+<section id="blog_page" style="background:#111;">
+ <div class="container mt-5">
+    <div class="row">
+      <div class="blog_page clearfix d-lg-flex justify-content-between me-3">
+
+        <div style="font-family: 'Poor Story', cursive;" class="col-sm-8 col-md-12 col-lg-8">
+
+          <div class="mt-0 mb-4 text-secondary d-flex align-items-center justify-content-between">
+            <h4 class="">
+              <a class="text-secondary" href="{% url 'home' %}">Home</a> > 
+              <a class="text-secondary" href="{% url 'blog:blog' %}">Blog</a> > 
+              Posts
+            </h4>
+            <div class="d-flex d-lg-none"><a href="{% url 'blog:create' %}" class="btn btn-outline-primary fs-4">Create Post</a></div>
+          </div>
+
+
+          {% for post in all_post %}
+          <div class="center_blog_left clearfix mb-5 test" data-post="{{post.id}}">
+          
+            <div class="container">
+              <h6><i class="fa fa-pencil"></i>Created by <span>{{post.author}}</span> {{ post.date_published|naturalday}}</h6>
+              <h1><a href="{{post.get_absolute_url}}">{{post.title}}</a></h1>
+              <div class="clearfix aos-init aos-animate" data-aos="zoom-out-up">
+               <a href="{{post.get_absolute_url}}"><img src="{{post.image_url}}" width="100%"></a>
+              </div>
+              <p>{{post.body|truncatewords:20 |safe}}.</p>
+
+
+              <div class="center_blog_left_inner clearfix">
+
+                <!---SOCIAL SHARE--->
+                <h4 class="text-muted fs-6 mb-3 d-flex">
+                  {% post_to_facebook object_or_url "facebook" "tag_2" %}
+                  {% post_to_twitter object_or_url "" "" "tag_1" %}
+                  {% post_to_gplus object_or_url goggle "tag_3" %}
+                  {% post_to_whatsapp object_or_url whatapp "tag_5" %}
+                </h4>                          
+
+                <!-- social details---->
+                <div class="d-flex justify-content-between">
+
+                  <div class="d-flex">
+                    <!----like reactions ---->
+                    {% csrf_token %}
+                    <button method="POST" data-post_id="{{post.id}}" data-value='Like' data-slug="{{post.slug}}" class="btn like_post d-flex align-items-center bg-primary text-light rounded-1 ms-1 p-1">
+                      <i class="fa fa-thumbs-up"></i><span id="likeCount{{post.id}}" class="like"></span>
+                    </button>
+                
+                    <button method="POST" data-post_id="{{post.id}}" data-value='Unlike' data-slug="{{post.slug}}" class="btn d-flex align-items-center like_post bg-danger text-light rounded-1 ms-1 p-1">
+                      <i class="fa fa-thumbs-down"></i><span id="dislikeCount{{post.id}}" class="like"></span>
+                    </button>
+                    
+                    <div id="like" data-bs-toggle="modal" data-bs-target="#likeAlert">
+                      {% include 'blog/snippets/likeAlert.html' %}
+                    </div>
+
+                    <!----comments---->
+                    <button type="button" onclick="dislay_comment_form({{post.id}})" class="btn d-flex align-items-center bg-secondary text-light rounded-1 ms-1 p-1">
+                      <i class="fa fa-comment"></i><span id="commentCount{{post.id}}"></span>
+                    </button>
+                  </div>
+
+                  <!---views--->
+                  <span class="span_1 fs-6 fw-bold"><i class="fa fa-eye"></i>{% get_hit_count for post %}</span>
+                </div>
+
+                <h5><a href="{{post.get_absolute_url}}">Learn more</a></h5>
+
+                <div style="display: none;" class="container" id="comment{{post.id}}">
+
+                  <form id="comment_form" class="comment_form blog_comment_5 clearfix" method="POST">{% csrf_token %}
+                    <div class="bg-dark">
+                      <input type="hidden" name="parent" value="{{post.id}}">
+                      {% include 'blog/snippets/comment.html' %}
+                    </div>
+                    <button class="mb-2 mt-1 fs-6 btn btn-lg rounded-0 btn-secondary" type="submit">Submit Comment</button>
+                  </form>                                
+                </div>
+
+              </div>
+            </div>                
+          </div>
+          {% endfor %}
+         
+         
+          <div class="article_home_left_3 clearfix">
+              {% include 'blog/snippets/blog_pagination_snippet.html' %}
+          </div>
+        </div>
+
+
+        <div class="col-sm-4 col col-lg-4 mx-4">
+          <div class="article_home_right clearfix">
+            <div class="mb-5 d-none d-lg-flex">
+              <a href="{% url 'blog:create' %}" class="btn btn-outline-primary col">Create Post</a>
+            </div>           
+
+           
+            {% include 'snippets/latest_post.html' %}
+
+            {% include 'snippets/get_category.html' %}
+
+            <div class="middle_right clearfix">
+              {% include 'snippets/worth_see.html' %}
+
+              {% include 'snippets/our_qualities.html' %}          
+            </div>
+          </div>              
+        </div>
+      </div>
+    </div>
+ </div>
+</section>
+
+
+<script type="text/javascript">
+    var a = document.getElementsByClassName('test')
+    
+    var postId = []
+    for (var i =0; i < a.length ; i++) {
+        j =  a[i].dataset.post       
+        k = {j}
+        postId.push(k)
+    }
+    setInterval(function(){
+        $.ajax({
+            type:'GET',
+            url: like_count_url,
+            data:{
+                'i':postId
+            },
+            success: function(data){
+                
+                for (var i =0; i < a.length ; i++) {
+                    j =  a[i].dataset.post
+                    var like = document.getElementById('likeCount'+j+'')
+                    var dislike = document.getElementById('dislikeCount'+j+'')
+                    var comments = document.getElementById('commentCount'+j+'')
+                    like.innerHTML = data[i]['likes']
+                    dislike.innerHTML = data[i]['dislikes']
+                    var comment = data[i]['comments']
+                    
+                    comments.innerHTML = comment
+                }
+            },
+
+        })
+    }, 2000)  
+
+    function dislay_comment_form(post){
+        
+        var commentForm = document.getElementById("comment"+post+"")
+        if (commentForm.style.display == "none"){
+            commentForm.style.display = "block"
+        }else{
+            commentForm.style.display = "none"
+        }
+       
+        
+    }
+
+    window.addEventListener('load', function(){ 
+        postLike();
+        postComment();
+    });
+</script>
+
+{% endblock content %}

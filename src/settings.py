@@ -31,6 +31,9 @@ DEBUG = os.environ.get('DEBUG', False)
 
 ALLOWED_HOSTS = []
 
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
+
 
 # Application definition
 
@@ -94,6 +97,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'home.views.latest_blog_post',
             ],
         },
     },
@@ -188,7 +193,7 @@ SOCIALACCOUNT_PROVIDERS = {
 LOGIN_REDIRECT_URL = "/account/profile/"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_FORMS = {'signup': 'profileAccount.forms.RegistrationForm'}
+ACCOUNT_FORMS = {'signup': 'user.forms.RegistrationForm'}
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/account/login'
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/'
@@ -210,19 +215,6 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
 CKEDITOR_IMAGE_BACKEND = "pillow"
-
-HIGHLIGHTJS = {
-  # The URL to the jQuery JavaScript file
-  'jquery_url': '//code.jquery.com/jquery.min.js',
-  # The highlight.js base URL
-  'base_url': '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js',
-  # The complete URL to the highlight.js CSS file
-  'css_url': '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/{0}.min.css',
-  # Include jQuery with highlight.js JavaScript (affects django-highlightjs template tags)
-  'include_jquery': False,
-  # The default used style.
-  'style': 'monokai_sublime',
-  }
 
 CKEDITOR_CONFIGS = {
     'default': {

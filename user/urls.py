@@ -10,7 +10,7 @@ from .views import (
 app_name = 'user'
 
 urlpatterns = [
-    path('account/authenticate', must_authenticate_view, name='must_authenticate'),
+    path('account/authenticate/', must_authenticate_view, name='must_authenticate'),
     path('settings', account_view, name="settings"),
     path('<user>/', profile_view, name="profile"),
     path('follow', follow_view, name="follows"),

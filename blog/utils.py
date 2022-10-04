@@ -89,8 +89,3 @@ def commentFormData(request):
             
 
             )
-
-def mustAuthenticate(request):
-    user = request.user
-    if not user.is_authenticated:
-        return redirect('must_authenticate')

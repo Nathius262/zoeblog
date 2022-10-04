@@ -9,7 +9,7 @@ import json
 
 from .models import BlogPost, Category, Like, Comment
 from .forms import CreateBlogPostForm, EditBlogPostForm
-from .utils import commentFormData, likeFormData, mustAuthenticate
+from .utils import commentFormData, likeFormData
 from user.models import Account
 from django.views.generic import ListView
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -25,7 +25,9 @@ def category_list(request):
 
 # create blog
 def create_blog_view(request):
-    mustAuthenticate(request)
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('user:must_authenticate')
 
     form = CreateBlogPostForm(request.POST or None, request.FILES or None)
  
@@ -57,7 +59,9 @@ def create_blog_view(request):
 def edit_blog_view(request, slug):
     context = {}
 
-    mustAuthenticate(request)
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('user:must_authenticate')
 
     blog_post = get_object_or_404(BlogPost, slug=slug)
 

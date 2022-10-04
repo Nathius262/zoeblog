@@ -1,0 +1,77 @@
+{% extends 'index.html'%}
+{% load static %}
+{% block content %}
+
+<section style="background:#111;" class="album text-light">
+	<div class="container mt-5 h-100">
+		<div class="row">
+			<div class="col-lg-10 offset-lg-1 mb-5">
+				<h1 class="fw-bold m-4 text-center">Update Post</h1>
+				<hr class="">
+				<form class="create-form" method="post" enctype="multipart/form-data">{% csrf_token %}
+
+					<p class="form-text error-text text-danger">
+		              {{ form.non_field_errors.as_text }}
+		            </p>
+
+					<!-----title---->
+					<div class="form-group mb-3">
+						<p class="text-center text-danger">{{form.title.errors.as_text}}</p>
+						{{form.title}}
+					</div>
+
+						<!-----category---->
+					<div class="form-control">
+						<p class="text-center text-danger">{{form.category.errors.as_text}}</p>
+					
+						<div class="mb-3 ">
+							{% for cat in form.category %}
+							<div class=" m-2">
+								{{cat}}
+							</div>
+							{%endfor%}
+						</div>
+					
+					</div>
+
+						<!-----body---->
+					<div class="form-group mb-3">
+						<h4>Body</h4>
+						<p class="text-center text-danger">{{form.body.errors.as_text}}</p>
+						{{form.media}}
+						{{form.body}}
+					</div>
+
+					<!-----image---->
+					{% if not form.initial.image %}
+					<div class="form-group image-group mb-3">
+						<div id="id_image_group" class="blog_main_img">				
+							<img style="max-width: 300px;" id="id_image_display" class="blog_img container">
+							<div class="blog_overlay blog_overlay_blur"><div class="title_blog_img">Change Image</div></div>
+							{{form.image}}
+						</div>
+					</div>
+					{% else %}
+					<div class="form-group image-group mb-3 col-lg-7 offset-lg-3">
+						<div id="id_image_group" class="blog_main_img">
+
+							<img style="max-width: 300px;" id="id_image_display" class="blog_img container " src="{{form.initial.image}}">
+							<div class="blog_overlay blog_overlay_blur"><div class="title_blog_img">Change Image</div></div>
+							{{form.image}}
+						</div>
+					</div>
+					{% endif %}
+
+					<button class="w-100 btn mb-2 btn-lg rounded-3 btn-primary mt-3" type="submit">Update</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+<script type="text/javascript">
+	document.getElementById('id_image_group').onclick = function(event){
+		document.getElementById('id_image_file').click();
+	};
+
+</script>
+{% endblock content %}

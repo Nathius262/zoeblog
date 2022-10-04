@@ -1,0 +1,268 @@
+{% extends 'index.html'%}
+{% block title%}post-{{post.slug}}{% endblock %}
+
+{% load static %}
+{% load hitcount_tags %}
+{% load social_share %}
+{% load humanize %}
+{% block content %}
+
+<section id="blog_page"  style="background:#111;">
+ <div class="container">
+  <div class="row">
+   <div class="blog_page clearfix test d-lg-flex justify-content-between me-3" data-post="{{post.id}}">
+      <div class="col-sm-8">
+       <div class="blog_detail clearfix">
+        <div class="blog_detail_1 clearfix">
+         <p class="fs-4"><a href="{% url 'home' %}">Homepage</a> <i class="fa fa-chevron-right"></i> <a href="{% url 'blog:blog' %}">Blog</a> <i class="fa fa-chevron-right"></i> {{post.slug}}</p>
+         <h6><a href="#">Present</a></h6>
+         <h1>{{post.title |title}}</h1>
+         <div class="blog_detail_1_inner clearfix d-md-flex align-items-center align-self-center text-center">
+          <div class="col-sm-6 space_left">
+           <div class="blog_detail_1_inner_left">
+            <h5>By <a href="{% url 'user:profile' post.author %}" title="view {{post.author}}'s profile">{{post.author}}</a> - {{post.date_published}}</h5>
+           </div>
+          </div>
+          <div class="col-sm-6">
+           <div class="blog_detail_1_inner_right text-right">
+             <h5>
+             <span class="span_1"><i class="fa fa-eye"></i>{% get_hit_count for post %}</span>
+             <span> <i class="fa fa-comment"></i><span id="commentCount{{post.id}}"></span></span>
+             </h5>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="news_left_2 clearfix">
+         <ul class="d-sm-inline-flex">
+
+        <li class="icon_link_1">{% post_to_facebook object_or_url "facebook" "tag_2" %}</li>
+        <li class="icon_link_2">{% post_to_twitter object_or_url "" "" "" %}</li>
+        <li class="icon_link_3">{% post_to_gplus object_or_url goggle "" %}</li>
+        <li class="icon_link_4">{% post_to_whatsapp object_or_url whatapp "tag_5" %}</li>
+        <li class="icon_link_5"><a href="#"><i class="fa fa-pinterest"></i>PINTEREST</a></li>
+        </ul>
+        
+        </div>
+        <div class="blog_detail_2 clearfix">
+            <a href="#"><img class="container" src="{{post.image_url}}"></a>
+        </div>
+        <div class="blog_detail_3 clearfix">
+
+         <div class="blog_detail_3_inner clearfix">
+            <div class="container">
+                <p style="font-size: 25px;"><span class="fw-bold text-secondary">Category: </span>{%for obj in cat %}<a href="/blog/category/{{obj}}" class="link-primary rounded mx-1">{{obj}}</a>{%endfor%}</p>
+            </div>
+           <div class="p_1">{{post.body | safe}}</div>
+         </div>
+        </div>
+       
+        
+        <div class="blog_comment clearfix">
+
+         <div class="blog_comment_1 d-flex justify-content-between">
+          <div class="d-flex">
+            <div class="d-flex justify-content-between">
+              {% csrf_token %}
+              <button method="POST" data-post_id="{{post.id}}" data-value='Like' data-slug="{{post.slug}}" class=" like_post bg-primary text-light rounded-1 ms-1 p-1">
+                  <i class="fa fa-thumbs-up"> Like <span id="likeCount{{post.id}}" class="like"></span></i>               
+              </button>
+          
+              <button method="POST" data-post_id="{{post.id}}" data-value='Unlike' data-slug="{{post.slug}}" class="like_post bg-danger text-light rounded-1 ms-1 p-1">
+                  <i class="fa fa-thumbs-down"></i> Dislike <span id="dislikeCount{{post.id}}" class="like"></span>
+              </button>
+
+              
+              <div id="like" data-bs-toggle="modal" data-bs-target="#likeAlert">
+                {% include 'blog/snippets/likeAlert.html' %}
+              </div>
+
+            </div>
+            <button type="button" id="commentCount" class="bg-primary text-light rounded-1 ms-1 p-1"><i class="fa fa-comment"></i>comment <span id="commentCount{{post.id}}"></span></button>
+          </div>
+           {% if post.author == user %}
+              <div class="mx-1">
+                  <a href="{% url 'blog:edit' post.slug %}" class="btn btn-secondary"><i class="fa fa-edit"></i></a>
+                   <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete_post"><i class="fa fa-trash"></i></button>
+                  {% include 'blog/snippets/delete_post.html' %}
+              </div>
+            {% endif %}
+
+         </div>
+
+         <div class="blog_comment_2 clearfix">          
+
+          <div class="middle_right_1 clearfix">
+            <h4 class="text-light fw-light">Next blog</h4>
+            {% for related in related_post %}
+            <div class="middle_right_1_inner clearfix">
+              <div class="col-sm-4 space_all">
+                <div class="middle_right_1_inner_left card-image">
+                  <a href="{{related.get_absolute_url}}"><img src="{{related.image_url}}" width="100%"></a>
+                </div>
+              </div>
+
+              <div class="col-sm-8">
+                <div class="middle_right_1_inner_right">
+                  <p><a href="{{related.get_absolute_url}}">{{related| title}}</a></p>
+                  <h5>{{related.date_published|naturalday}}</h5>
+                  <p class="text-secondary">{{related.body |truncatewords:10 |safe}}</p>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+         </div>
+
+
+        <!---load comments----->
+          {% load mptt_tags %}
+              <div class="blog_comment clearfix mt-5 mb-5">
+                {% if comments %}
+                    {% with comments.count as total_comments%}
+                        <h3 class="text-light">Comment{{total_comments | pluralize}}</h3>
+                    {%endwith%}
+                    <div class="container pt-2 pb-2 mb-5">
+                      {% recursetree comments %}
+                          <div class="container text-light mb-3 mt-3">
+                              <div class="d-flex justify-content-between mt-3">
+                                <div>By {{node.name_comment}} {{ node.content}}</div>
+
+
+                                 <div>
+                                  {% if node.level < 3 %}
+                                      <button class="button btn btn-secondary m-3 " onclick="myfunction({{node.id}})"><i class="fa fa-reply"></i></button>
+                                  {% endif %}
+
+                                </div>
+                              </div>
+                                  
+                                  <div id="{{node.id}}" style="display: none;">
+                                      <form class="blog_comment_5 comment_form clearfix">
+                                          <input type="hidden" name="parent" value="{{node.id}}">
+                                          {% include 'blog/snippets/comment.html' %}
+                                         
+                                           <button type="submit" class="btn btn-secondary rounded-0 mt-2">submit comment</button>
+                                      </form>
+
+                                      
+                                      
+                                  </div>
+                              
+
+                              
+                              {% if not node.is_leaf_node %}
+                                  <div class=" px-4">
+                                      {{children}}
+                                  </div>
+                              {% endif %}
+                          </div>
+
+
+                          <script type="text/javascript">
+                              function myfunction(id){
+                                  var d = document.getElementById(id)
+                                  if (d.style.display == "none"){
+                                      d.style.display = "block"
+                                  }else{
+                                      d.style.display = "none"
+                                  }                                                                                               
+                              }
+                          </script>
+                      {% endrecursetree %}
+                    </div>
+                {% else %}
+                    <p class="text-light" style="font-size: 20px;">There are no comments for this post!.</p>
+                {% endif %}
+            </div>
+
+            <script type="text/javascript">
+              var a = document.getElementsByClassName('nodecommentform')
+              for (var i=0; i < a.length; i++){
+                  a[i].addEventListener('submit', function(e){
+                      e.preventDefault()
+                      form = {
+                        'parent':this.parent.value,
+                        'content':this.content.value,
+                      }
+                      $.ajax({
+                          type:'POST',                
+                          url: comment_reply_url,
+                          data: {
+                              'comment_data':JSON.stringify(form),
+                              csrfmiddlewaretoken:csrf_token,
+                          },
+                          success: function(data){
+                              console.log(data)
+                          },
+                      })
+                  }) 
+              }
+            </script>
+
+
+         <form class="blog_comment_5 comment_form clearfix">
+          <h4>LEAVE A COMMENT</h4>
+          <input type="hidden" name="parent" value="{{post.id}}">
+         {% include 'blog/snippets/comment.html' %} 
+          <button type="submit" class="btn btn-secondary rounded-0 mt-2">submit comment</button>         
+         </form>
+
+        </div>
+       </div>
+     </div>
+    <div class="col-sm-4 col col-lg-4 mx-4">
+     <div class="article_home_right clearfix">
+      {% include 'snippets/latest_post.html' %}
+      {% include 'snippets/get_category.html' %}
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+
+<script>
+  var a = document.getElementsByClassName('test')
+    
+    var postId = []
+    for (var i =0; i < a.length ; i++) {
+        j =  a[i].dataset.post       
+        k = {j}
+        postId.push(k)
+    }
+    setInterval(function(){
+        $.ajax({
+            type:'GET',
+            url: like_count_url,
+            data:{
+                'i':postId
+            },
+            success: function(data){
+                
+                for (var i =0; i < a.length ; i++) {
+                    j =  a[i].dataset.post
+                    var like = document.getElementById('likeCount'+j+'')
+                    var dislike = document.getElementById('dislikeCount'+j+'')
+                    var comments = document.getElementById('commentCount'+j+'')
+                    like.innerHTML = data[i]['likes']
+                    dislike.innerHTML = data[i]['dislikes']
+                    var comment = data[i]['comments']
+                    
+                    comments.innerHTML = comment
+                }
+            },
+
+        })
+    }, 2000)  
+    
+    //alert(window.location);
+    window.addEventListener('load', function(){ 
+        postLike();
+        postComment();
+
+    });
+
+</script>
+{% endblock content %}

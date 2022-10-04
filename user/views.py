@@ -110,4 +110,4 @@ def follow_view(request):
 
 
 def must_authenticate_view(request):
-    return render(request, 'user/must_authenticate.html', {})
+    return render(request, 'user/must_authenticate.html')

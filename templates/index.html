@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>{% block title %}{% endblock %}</title>
+        {% load static %}
+
+        <link rel="icon" href="{% static '/img/zoe-blog2b.jpg' %}" type="image/png"  sizes="16x16"/>
+        <!---CSS LINK---->
+
+        <script type="text/javascript" src="{% static '/highlight/highlight.min.js' %}"></script>
+
+        <script>hljs.initHighlightingOnLoad();</script>
+
+        <link rel="stylesheet" href="{% static '/highlight/styles/github-dark.min.css' %}">
+        <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}" media="all">
+        <link type="text/css" href="{% static '/css/style.css' %}" rel="stylesheet" media="all">
+          <link rel="stylesheet" type="text/css" href="{% static '/css/font-awesome.min.css' %}" />
+
+        <link href="{% static 'css/aos.css' %}" rel="stylesheet" media="all">
+        
+        
+        <!-- JQ-CROPPER --->
+        <script src="{% static '/js/jquery-2.1.1.min.js' %}"></script>
+        <script src="{% static '/js/cropper.js' %}"></script>
+        <link type="text/css" rel="stylesheet" href="{% static 'css/cropper.css' %}">
+        <script type="text/javascript" src="{% static '/js/jquery-cropper.js' %}"></script>
+        <script type="text/javascript" src="{% static '/js/aos.js' %}"></script>
+
+        <!--JS GLOBAL VARIABLE--->
+        <script type="text/javascript">
+          var user = "{{request.user}}"
+          var csrf_token = "{{csrf_token}}"
+
+          // URL
+          var get_category_url = "{% url 'blog:category_list' %}"
+          var like_post_url  = "{% url 'blog:like' %}"
+          var like_count_url = "{% url 'blog:likesCount' %}"
+          var comment_post_url = "{% url 'blog:comment' %}"
+          var create_category_url ="{% url 'blog:create_category' %}"
+          var delete_post_url = "{% url 'blog:delete_post' %}"
+          var home_url = "{% url 'home' %}"
+          var category_list = "{% url 'blog:category_list' %}"
+          var get_followers_url = "{% url 'user:getfollower' %}"
+          var follow_url = "{% url 'user:follows' %}"
+          var comment_reply_url = "{% url 'blog:comment_reply' %}"
+        </script>
+    </head>
+    <body>
+
+        <!---header----> 
+        {% include 'snippets/header_snippets.html' %}
+
+        {% block content %}
+        {% endblock content %}
+
+         <!---footer----> 
+        {% include 'snippets/footer_snippets.html' %}
+
+        <!---JS LINK----> 
+        <script>
+          AOS.init({
+            duration: 1200,
+          })
+        </script>   
+        <script src="{% static '/js/bootstrap.js' %}"></script>        
+        <script type="text/javascript" src="{% static 'js/customjs.js' %}"></script>
+        
+    </body>
+
+</html>

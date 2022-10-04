@@ -1,0 +1,73 @@
+<!---- navbar header---->
+
+<section>
+    <nav class="fixed-top navbar navbar-expand-lg bg-dark navbar-dark shadow">
+        <div class="container-fluid">
+                {% if request.user.is_authenticated %}
+                    <div class ="navbar-brand d-flex">
+                            Welcome back, {{request.user.username}}, <!---{{ request.user.socialaccount_set.all.0.extra_data.name }}--->
+                        {% if request.user.picture %}
+                            <a href="{% url 'user:profile' request.user.username %}" style="border:none; background-image: url('{{request.user.picture_url}}'); " type="submit" class="ms-3 header_img" ></a>
+                        {% else %}
+
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <a class="navbar-brand">ZOE BLOG</a>
+                 {% endif %}
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+            <div class=" collapse navbar-collapse" id="navmenu">
+                <ul class="navbar-nav ms-auto">
+                        {% if request.user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+                            </li>
+                         {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'account_signup' %}">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'account_login' %}"> Login</a>
+                            </li>
+                        {% endif %}
+                    <li class="nav-item">
+                        <a href="{% url 'home' %}" class="nav-link">Home</a>
+                    </li>
+                    {% if request.user.is_authenticated %}
+                     <li class="nav-item">
+                        <a href="{% url 'user:profile' request.user.username %}" class="nav-link">Account</a>
+                      </li>
+                      {% endif %}
+                     <li class="nav-item">
+                            <a href="{% url 'blog:blog' %}" class="nav-link">Blog</a>
+                    </li>
+                </ul>
+                <form method="get" action="{% url 'search' %}" class="d-flex ms-4" role="search">
+                  <input name="q" class="form-control me-2" id="1d_q" type="search" placeholder="Search" aria-label="Search" required>
+                  <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</section>
+
+
+<!--message--->
+<div id="msg" class="mt-5">
+    {% if messages %}
+    <div class="container">
+      <div>
+        {% for message in messages %}
+         <div class="d-flex justify-content-center text-center alert alert-{{message.tags}} m-2" role="alert">
+              <p class="fw-bold fs-4 mb-0 mx-2">{{message.tags | title}}!</p>
+              <p class="fs-4 mb-0">{{message}}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+</div>

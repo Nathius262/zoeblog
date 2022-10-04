@@ -1,0 +1,66 @@
+<style>
+    @media (max-width: 600px) {
+        .modal-dialog{
+            left: 20%;
+            margin-top: 40px;
+            justify-items: center;
+        }
+        .modal-content {
+            max-width: 50%;
+        }
+        h2{
+            text-align: center;
+        }
+    }
+</style>
+
+  <!---- delete post modal---->
+
+<div class="modal modal-signin py-5 mt-5" tabindex="-2" role="dialog" id="delete_post">
+  <div class="modal-dialog" role="document">
+  <div class="modal-content rounded-4 shadow">
+    <div class="modal-body p-4 text-center d-flex justify-content between">
+      <div class="alert alert-warning m-2" role="alert">
+        <h4>Are you sure you want to permanently delete this post?</h4>
+      </div>
+    
+    </div>
+
+    <div class="modal-body p-5 pt-0">
+    <form method="post" id="delete_post_form">{% csrf_token %}
+      <div class="form-floating mb-3">
+        <input type="hidden" name="postId" value="{{post.id}}">
+
+        <div class="container d-flex mb-2 ">
+          <button class="form-control btn btn-danger m-1 p-2" type="submit">ok</button>
+          <button type="button" class="form-control btn btn-primary m-1 p-2" data-bs-dismiss="modal" aria-label="Close">cancel</button>
+        </div>
+
+      </div>
+    </form>
+    </div>
+  </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var post_name = "{{post.name}}"
+  var deletePost = document.getElementById('delete_post_form')
+    deletePost.addEventListener('submit', function(e){
+      e.preventDefault();
+      $.ajax({
+          type:'POST',                
+          url: delete_post_url,
+          data: {
+              'deleteData':deletePost.postId.value,
+              csrfmiddlewaretoken:csrf_token,
+          },
+          success: function(data){
+              console.log(data)
+          },          
+      })
+      alert('post delete')
+      window.location.href = home_url
+
+  })
+</script>
