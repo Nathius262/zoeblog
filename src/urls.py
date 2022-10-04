@@ -22,6 +22,11 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('allauth.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('hitcount/', include(('hitcount.urls', 'hitcount'), namespace='hitcount')),
+
+    path('profile/', include('user.urls')),
+    path('blog/', include('blog.urls', 'blog')),
 ]
 
 if settings.DEBUG:

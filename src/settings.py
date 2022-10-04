@@ -36,14 +36,17 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.humanize',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # my installed app
     'user',
+    'blog',
 
     # allauth
     'allauth',
@@ -54,6 +57,17 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
     'django_extensions',
+
+    'mptt',
+
+    # ckeditor
+    'ckeditor',
+    'ckeditor_uploader',
+    #'highlightjs',
+
+    # django hitcount
+    'hitcount',
+    'django_social_share',
 ]
 
 MIDDLEWARE = [
@@ -152,3 +166,99 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+SITE_ID = 1
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+# ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+
+LOGIN_REDIRECT_URL = "/account/profile/"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_FORMS = {'signup': 'profileAccount.forms.RegistrationForm'}
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/account/login'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_SESSION_REMEMBER = True
+
+# Additional configuration settings
+SOCIALACCOUNT_QUERY_EMAIL = True
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# SOCIALACCOUNT_ADAPTER = 'profileAccount.adapter.SocialAdapter'
+
+# Additional configuration settings
+SOCIALACCOUNT_QUERY_EMAIL = True
+
+# ckeditor
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+HIGHLIGHTJS = {
+  # The URL to the jQuery JavaScript file
+  'jquery_url': '//code.jquery.com/jquery.min.js',
+  # The highlight.js base URL
+  'base_url': '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js',
+  # The complete URL to the highlight.js CSS file
+  'css_url': '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/{0}.min.css',
+  # Include jQuery with highlight.js JavaScript (affects django-highlightjs template tags)
+  'include_jquery': False,
+  # The default used style.
+  'style': 'monokai_sublime',
+  }
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'skin': 'office2013',
+        # 'skin': 'office2013',
+        'toolbar_Basic': [
+            ['Source', '-', 'Bold', 'Italic']
+        ],
+        'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
+        # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
+        # 'height': 291,
+        'width': '100%',
+        # 'filebrowserWindowHeight': 725,
+        # 'filebrowserWindowWidth': 940,
+        # 'toolbarCanCollapse': True,
+        # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
+        'tabSpaces': 4,
+  
+        'extraPlugins': ','.join([
+            'html5video',
+            'video',
+            'uploadimage',  # the upload image feature
+            # your extra plugins here
+            'div',
+            'autolink',
+            'autoembed',
+            'embedsemantic',
+            'autogrow',
+            # 'devtools',
+            #'widget',
+            'lineutils',
+            'clipboard',
+            'dialog',
+            'dialogui',
+            'elementspath',
+            'codesnippet',
+            'mathjax',
+        ]),
+    }
+}
