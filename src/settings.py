@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # my installed app
     'user',
     'blog',
+    'home',
 
     # allauth
     'allauth',

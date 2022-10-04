@@ -19,11 +19,19 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
+from home.views import (
+    home_screen_view,
+    search_view,
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('allauth.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('hitcount/', include(('hitcount.urls', 'hitcount'), namespace='hitcount')),
+
+    path('', home_screen_view, name="home"),
+    path('search/', search_view, name='search'),
 
     path('profile/', include('user.urls')),
     path('blog/', include('blog.urls', 'blog')),
