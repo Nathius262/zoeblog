@@ -120,13 +120,13 @@
               <div class="blog_comment clearfix mt-5 mb-5">
                 {% if comments %}
                     {% with comments.count as total_comments%}
-                        <h3 class="text-light">Comment{{total_comments | pluralize}}</h3>
+                        <h3 class="text-light mt-3">Comment{{total_comments | pluralize}}</h3>
                     {%endwith%}
                     <div class="container pt-2 pb-2 mb-5">
-                      {% recursetree comments %}
-                          <div class="container text-light mb-3 mt-3">
+                      {% recursetree comments%}
+                          <div class="container text-light mb-3 mt-3 " style="background-color: #434242">
                               <div class="d-flex justify-content-between mt-3">
-                                <div>By {{node.name_comment}} {{ node.content}}</div>
+                                <div class="row container">By {{node.name_comment}} <span>{{ node.content}}</span></div>
 
 
                                  <div>
@@ -143,16 +143,11 @@
                                           {% include 'blog/snippets/comment.html' %}
                                          
                                            <button type="submit" class="btn btn-secondary rounded-0 mt-2">submit comment</button>
-                                      </form>
+                                      </form>                                      
+                                  </div> 
 
-                                      
-                                      
-                                  </div>
-                              
-
-                              
                               {% if not node.is_leaf_node %}
-                                  <div class=" px-4">
+                                  <div class=" px-4 border">
                                       {{children}}
                                   </div>
                               {% endif %}
@@ -162,11 +157,11 @@
                 {% else %}
                     <p class="text-light" style="font-size: 20px;">There are no comments for this post!.</p>
                 {% endif %}
-            </div>
+              </div>
 
          <form class="blog_comment_5 comment_form clearfix">
           <h4>LEAVE A COMMENT</h4>
-          <input type="hidden" name="parent" value="{{post.id}}">
+          <input type="hidden" name="parent" value="">
          {% include 'blog/snippets/comment.html' %} 
           <button type="submit" class="btn btn-secondary rounded-0 mt-2">submit comment</button>         
          </form>

@@ -206,6 +206,52 @@ function detailedPost(){
     }, 2000)  
 }
 
+function detailedBlogPost(){
+    var a = document.getElementsByClassName('test')
+    
+    var postId = []
+    for (var i =0; i < a.length ; i++) {
+        j =  a[i].dataset.post       
+        k = {j}
+        postId.push(k)
+    }
+    setInterval(function(){
+        $.ajax({
+            type:'GET',
+            url: like_count_url,
+            data:{
+                'i':postId
+            },
+            success: function(data){
+                
+                for (var i =0; i < a.length ; i++) {
+                    j =  a[i].dataset.post
+                    var like = document.getElementById('likeCount'+j+'')
+                    var dislike = document.getElementById('dislikeCount'+j+'')
+                    var comments = document.getElementById('commentCount'+j+'')
+                    like.innerHTML = data[i]['likes']
+                    dislike.innerHTML = data[i]['dislikes']
+                    var comment = data[i]['comments']
+                    
+                    comments.innerHTML = comment
+                }
+            },
+
+        })
+    }, 2000) 
+}
+
+function dislay_comment_form(post){
+    
+    var commentForm = document.getElementById("comment"+post+"")
+    if (commentForm.style.display == "none"){
+        commentForm.style.display = "block"
+    }else{
+        commentForm.style.display = "none"
+    }
+   
+    
+}
 
 function myfunction(id){
   var d = document.getElementById(id)

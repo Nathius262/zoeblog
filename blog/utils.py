@@ -67,11 +67,10 @@ def commentFormData(request):
 
     obj = json.loads(request.POST['comment_data'])
     post = BlogPost.objects.get(id=obj['post'])
-    c = Comment.objects.all().filter(id=int(obj['parent']))
+
     if user.is_authenticated:
         comment = Comment.objects.create(
             post=post,
-            parent=c.first(),
             name_comment=user.name,
             email_comment=user.email,
             username_comment=user.username,
@@ -81,7 +80,6 @@ def commentFormData(request):
     else:
         comment = Comment.objects.create(
             post=post,
-            parent=c.first(),
             name_comment=obj['name_comment'],
             email_comment=obj['email_comment'],
             username_comment=obj['username_comment'],
@@ -89,3 +87,10 @@ def commentFormData(request):
             
 
             )
+
+    if obj['parent']:
+        c = Comment.objects.all().filter(id=int(obj['parent']))
+        comment.parent =c.first()
+        comment.save()
+
+    print(comment)
