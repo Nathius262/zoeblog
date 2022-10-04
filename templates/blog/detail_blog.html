@@ -51,9 +51,9 @@
 
          <div class="blog_detail_3_inner clearfix">
             <div class="container">
-                <p style="font-size: 25px;"><span class="fw-bold text-secondary">Category: </span>{%for obj in cat %}<a href="/blog/category/{{obj}}" class="link-primary rounded mx-1">{{obj}}</a>{%endfor%}</p>
+                <p style="font-size: 25px;"><span class="fw-bold text-secondary">Category: </span>{%for obj in cat %}<a href="/blog/category/{{obj}}" class="link-primary rounded mx-1">-{{obj}}</a>{%endfor%}</p>
             </div>
-           <div class="p_1">{{post.body | safe}}</div>
+           <div class="p_1 fs-4">{{post.body | safe}}</div>
          </div>
         </div>
        
@@ -157,49 +157,12 @@
                                   </div>
                               {% endif %}
                           </div>
-
-
-                          <script type="text/javascript">
-                              function myfunction(id){
-                                  var d = document.getElementById(id)
-                                  if (d.style.display == "none"){
-                                      d.style.display = "block"
-                                  }else{
-                                      d.style.display = "none"
-                                  }                                                                                               
-                              }
-                          </script>
                       {% endrecursetree %}
                     </div>
                 {% else %}
                     <p class="text-light" style="font-size: 20px;">There are no comments for this post!.</p>
                 {% endif %}
             </div>
-
-            <script type="text/javascript">
-              var a = document.getElementsByClassName('nodecommentform')
-              for (var i=0; i < a.length; i++){
-                  a[i].addEventListener('submit', function(e){
-                      e.preventDefault()
-                      form = {
-                        'parent':this.parent.value,
-                        'content':this.content.value,
-                      }
-                      $.ajax({
-                          type:'POST',                
-                          url: comment_reply_url,
-                          data: {
-                              'comment_data':JSON.stringify(form),
-                              csrfmiddlewaretoken:csrf_token,
-                          },
-                          success: function(data){
-                              console.log(data)
-                          },
-                      })
-                  }) 
-              }
-            </script>
-
 
          <form class="blog_comment_5 comment_form clearfix">
           <h4>LEAVE A COMMENT</h4>
@@ -211,7 +174,7 @@
         </div>
        </div>
      </div>
-    <div class="col-sm-4 col col-lg-4 mx-4">
+    <div class="col-sm-4 col col-lg-4">
      <div class="article_home_right clearfix">
       {% include 'snippets/latest_post.html' %}
       {% include 'snippets/get_category.html' %}
@@ -223,46 +186,13 @@
 </section>
 
 
-<script>
-  var a = document.getElementsByClassName('test')
-    
-    var postId = []
-    for (var i =0; i < a.length ; i++) {
-        j =  a[i].dataset.post       
-        k = {j}
-        postId.push(k)
-    }
-    setInterval(function(){
-        $.ajax({
-            type:'GET',
-            url: like_count_url,
-            data:{
-                'i':postId
-            },
-            success: function(data){
-                
-                for (var i =0; i < a.length ; i++) {
-                    j =  a[i].dataset.post
-                    var like = document.getElementById('likeCount'+j+'')
-                    var dislike = document.getElementById('dislikeCount'+j+'')
-                    var comments = document.getElementById('commentCount'+j+'')
-                    like.innerHTML = data[i]['likes']
-                    dislike.innerHTML = data[i]['dislikes']
-                    var comment = data[i]['comments']
-                    
-                    comments.innerHTML = comment
-                }
-            },
+<script>    
+  window.addEventListener('load', function(){ 
+    detailedPost();
+    postLike();
+    postComment();
 
-        })
-    }, 2000)  
-    
-    //alert(window.location);
-    window.addEventListener('load', function(){ 
-        postLike();
-        postComment();
-
-    });
+  });
 
 </script>
 {% endblock content %}

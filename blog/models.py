@@ -78,15 +78,15 @@ def submission_delete(sender, instance, **kwargs):
 def save_img(sender, instance, *args, **kwargs):
     SIZE = 600, 600
     if instance.image:
-            pic = Image.open(instance.image.path)
-            try:
-                pic.thumbnail(SIZE, Image.LANCZOS)
-                pic.save(instance.image.path)
-            except:
-                if pic.mode in ("RGBA", 'P'):
-                    blog_pic = pic.convert("RGB")
-                    blog_pic.thumbnail(SIZE, Image.LANCZOS)
-                    blog_pic.save(instance.image.path)        
+        pic = Image.open(instance.image.path)
+        try:
+            pic.thumbnail(SIZE, Image.LANCZOS)
+            pic.save(instance.image.path)
+        except:
+            if pic.mode in ("RGBA", 'P'):
+                blog_pic = pic.convert("RGB")
+                blog_pic.thumbnail(SIZE, Image.LANCZOS)
+                blog_pic.save(instance.image.path)        
 
 
 def pre_save_blog_post_receiver(sender, instance, *args, **kwargs):

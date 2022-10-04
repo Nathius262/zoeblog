@@ -11,7 +11,7 @@ from .forms import AccountUpdateForm
 from .models import Account, Follower
 from django.shortcuts import render, redirect, get_object_or_404
 
-#from blogPost.models import BlogPost
+from blog.models import BlogPost
 
 
 # Create your views here.

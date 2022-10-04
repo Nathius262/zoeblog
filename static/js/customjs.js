@@ -72,6 +72,7 @@ function postComment(){
             
             submitCommentData(commentInfo);
             this.content.value = "";
+            location.reload();
         })
     }
 
@@ -148,6 +149,72 @@ function postFollow(){
     }
 }
 
+function detailedPost(){
+    var a = document.getElementsByClassName('nodecommentform')
+    for (var i=0; i < a.length; i++){
+        a[i].addEventListener('submit', function(e){
+                e.preventDefault()
+            form = {
+                'parent':this.parent.value,
+                'content':this.content.value,
+            }
+            $.ajax({
+                type:'POST',                
+                url: comment_reply_url,
+                data: {
+                    'comment_data':JSON.stringify(form),
+                    csrfmiddlewaretoken:csrf_token,
+                },
+                success: function(data){
+                    console.log(data)
+                },
+            })
+        }) 
+    }
+
+    var a = document.getElementsByClassName('test')
+    
+    var postId = []
+    for (var i =0; i < a.length ; i++) {
+        j =  a[i].dataset.post       
+        k = {j}
+        postId.push(k)
+    }
+    setInterval(function(){
+        $.ajax({
+            type:'GET',
+            url: like_count_url,
+            data:{
+                'i':postId
+            },
+            success: function(data){
+                
+                for (var i =0; i < a.length ; i++) {
+                    j =  a[i].dataset.post
+                    var like = document.getElementById('likeCount'+j+'')
+                    var dislike = document.getElementById('dislikeCount'+j+'')
+                    var comments = document.getElementById('commentCount'+j+'')
+                    like.innerHTML = data[i]['likes']
+                    dislike.innerHTML = data[i]['dislikes']
+                    var comment = data[i]['comments']
+                    
+                    comments.innerHTML = comment
+                }
+            },
+
+        })
+    }, 2000)  
+}
+
+
+function myfunction(id){
+  var d = document.getElementById(id)
+  if (d.style.display == "none"){
+      d.style.display = "block"
+  }else{
+      d.style.display = "none"
+  }                                                                                               
+}
 //create post view
 function readURL(input){
     var reader = new FileReader();

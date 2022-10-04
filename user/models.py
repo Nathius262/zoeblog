@@ -57,8 +57,7 @@ class Account(AbstractBaseUser):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True)
     name = models.CharField(max_length=100, unique=False)
-    picture = models.ImageField(upload_to=image_location, default="user.png",
-                                      null=True, blank=True)
+    picture = models.ImageField(upload_to=image_location, default="default.jpg", null=True, blank=True)
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now=True)
     last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
     is_admin = models.BooleanField(default=False)
@@ -99,10 +98,15 @@ def save_profile_img(sender, instance, *args, **kwargs):
     SIZE = 300, 300
     if instance.picture:
         pic = Image.open(instance.picture.path)
-        if pic.mode in ("RGBA", 'P'):
-            pic = pic.convert("RGB")
+        try:
             pic.thumbnail(SIZE, Image.LANCZOS)
             pic.save(instance.picture.path)
+        except:
+            if pic.mode in ("RGBA", 'P'):
+                profile_pic = pic.convert("RGB")
+                profile_pic.thumbnail(SIZE, Image.LANCZOS)
+                profile_pic.save(instance.picture.path)        
+
 
 
 class Follower(models.Model):
