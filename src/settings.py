@@ -188,6 +188,21 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'blogzoe18@gmail.com' #sender's email-id
+DEFAULT_FROM_EMAIL = 'blogzoe18@gmail.com'
+SERVER_EMAIL = 'blogzoe18@gmail.com'
+EMAIL_HOST_PASSWORD = 'etzauornsuhmeutv' #password associated with above email-id
+
+
+#ACCOUNT_ADAPTER = 'user.adapter.CustomAccountAdapter'
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+
 # ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 LOGIN_REDIRECT_URL = "/account/profile/"
