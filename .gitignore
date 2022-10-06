@@ -3,3 +3,4 @@ __pycache__/
 .env
 static_cdn/
 media_cdn/
+db.sqlite3

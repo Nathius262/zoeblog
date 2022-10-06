@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'some_random_default_string')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['zoeblog.pythonanywhere.com']
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
@@ -188,7 +188,19 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-# ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'blogzoe18@gmail.com' #sender's email-id
+DEFAULT_FROM_EMAIL = 'blogzoe18@gmail.com'
+SERVER_EMAIL = 'blogzoe18@gmail.com'
+EMAIL_HOST_PASSWORD = 'etzauornsuhmeutv' #password associated with above email-id
+
+
+#ACCOUNT_ADAPTER = 'user.adapter.CustomAccountAdapter'
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 LOGIN_REDIRECT_URL = "/account/profile/"
 ACCOUNT_EMAIL_REQUIRED = True
@@ -232,7 +244,7 @@ CKEDITOR_CONFIGS = {
         # 'toolbarCanCollapse': True,
         # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
         'tabSpaces': 4,
-  
+
         'extraPlugins': ','.join([
             'html5video',
             'video',
