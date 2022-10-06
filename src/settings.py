@@ -188,6 +188,10 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1bd82d9750aae4694d6280228c77092404fdb174
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
@@ -201,6 +205,11 @@ EMAIL_HOST_PASSWORD = 'etzauornsuhmeutv' #password associated with above email-i
 #ACCOUNT_ADAPTER = 'user.adapter.CustomAccountAdapter'
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+<<<<<<< HEAD
+=======
+
+# ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+>>>>>>> 1bd82d9750aae4694d6280228c77092404fdb174
 
 LOGIN_REDIRECT_URL = "/account/profile/"
 ACCOUNT_EMAIL_REQUIRED = True
