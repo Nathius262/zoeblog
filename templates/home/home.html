@@ -76,8 +76,8 @@ home
     <div class="container">
       <div class="row">
         <div class="middle clearfix d-lg-inline-flex">
-          <div class="col-sm-8 col-md-12 col-lg-8 ">
-            <div class="middle_left clearfix">
+          <div class="">
+            <div class="middle_left">
             
             {% for post in posts %}
               <div class="middle_left_1 clearfix">
@@ -86,14 +86,15 @@ home
 
               <div class="middle_left_2 clearfix d-md-flex">          
                 {% for obj in post %}
-                  <div class="col-sm-4 mx-1 mb-2">        
+                  <div class="col-md-4 mx-1 mb-2 row">        
                     <a href="{{obj.get_absolute_url}}"> 
                       <div class="middle_left_2_inner clearfix container">
                         <div style="background-image: url('{{obj.image_url}}'); background-size: cover; width: 100%; height: 150px" class="item aos-init aos-animate" ></div>
                         <h5>{{obj.title|title |safe}}</h5>
-                        <p class="container">{{obj.body |truncatewords:10 |safe}}</p>             
+                                     
                       </div> 
                     </a>
+                    <div style="font-size: 10px; color: grey" class="container col">{{obj.body |truncatewords:5 |safe}}</div>
                  </div>
                 {% endfor %}
               </div>
@@ -102,7 +103,7 @@ home
             </div>
           </div>
 
-          <div class="col-sm-4 col col-lg-4 mx-4">
+          <div class="col-md-6 col-lg-4 mx-4">
             <div class="article_home_right clearfix">             
               <div class="middle_right clearfix">
                 {% include 'snippets/worth_see.html' %}
@@ -121,8 +122,8 @@ home
   <section id="article_home">
     <div class="container">
       <div class="row">
-        <div class="article_home clearfix  clearfix d-lg-inline-flex">
-          <div class="col-sm-8 col-md-12 col-lg-8">
+        <div class="article_home clearfix d-lg-inline-flex">
+          <div class="">
             <div class="article_home_left clearfix">
               <div class="article_home_left_1 clearfix">
                 <h3>TRENDING BLOGS</h3>
@@ -135,7 +136,7 @@ home
                     <a href="{{p.get_absolute_url}}"><img src="{{p.image_url}}"></a>
                     <h6><a href="{{p.get_absolute_url}}">{{p.category.first.category_name}}</a></h6>
                     <h3><a href="{{p.get_absolute_url}}">{{p.title}}</a></h3>
-                    <h5>
+                    <h5 style="font-size: 15px;">
                       <a href="{{p.get_absolute_url}}"><span>{{p.author}}</span> - {{p.date_published |naturalday}}</a>
                       <a href="{{p.get_absolute_url}}"><i class="fa fa-comment pull-right"></i></a>
                     </h5>
@@ -146,7 +147,7 @@ home
             </div>
           </div>
 
-          <div class="col-sm-4">
+          <div class="col-md-6 col-lg-4">
             <div class="article_home_right clearfix">
               {% include 'snippets/latest_post.html' %}
               {% include 'snippets/get_category.html' %}

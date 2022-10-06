@@ -1,9 +1,12 @@
 {% extends 'index.html'%}
 {% load humanize %}
 {% block title %}profile-{{current_user}}{% endblock %}
+{% load i18n %}
+{% load static %}
+{% load account socialaccount %}
 
 {% block content %}
-
+{% get_providers as socialaccount_providers %}
 <div style="margin-bottom: 300px;" class="container mt-5">
 	<div class="row">
 		<div class="album py-3 text-light">
@@ -20,7 +23,7 @@
 							<div class="d-md-flex d-block justify-content-between">
 								<div class="d-block">
 									<h3>{{obj.name}}</h3>
-									<h4>@{{obj.username}}</h4>
+									<h4 class="fs-6">@{{obj.username}}</h4>
 								</div>
 								<div class="d-block">
 									<h6>{{obj.email}}</h6>
@@ -37,20 +40,31 @@
 								<p class="justify-content-center text-secondary">Followers<span id="followerCount" class="container d-block"></span></p>
 								<p class="justify-content-center text-secondary">Following<span id="followingCount" class="container d-block "></span></p>
 							</div>
-							 <div class="d-flex justify-content-between">
+							 <div class="d-sm-flex justify-content-between align-items-center text-center">
                                  {%if current_user == logged_in_user %}
-                                    <a href="{% url 'user:settings' %}" class="btn btn-secondary">Edit Profile</a>
+                                    <a href="{% url 'user:settings' %}" class="btn btn-secondary m-3 m-md-0 m-lg-0">Edit Profile</a>
                                  {% endif %}
 
-								 <form method="POST" id="follow_formId" class="follow_form" data-follower="{{logged_in_user}}" data-user="{{current_user}}">
+								 <form method="POST" id="follow_formId" class="follow_form m-3 m-md-0 m-lg-0" data-follower="{{logged_in_user}}" data-user="{{current_user}}">
 								 	{%csrf_token%}
 								 	<button id="follow_btn" class="btn btn-outline-dark text-light" type="submit"></button>
 								 </form>
-								 <script type="text/javascript">
-								 	
-								 	
-								 </script>
-								 <a href="{% url 'account_email' %}" class="btn btn-secondary">Change/Add Email</a>
+
+								 <a href="{% url 'account_email' %}" class="btn btn-secondary m-3 m-md-0 m-lg-0">Change/Add Email</a>
+                            </div>
+                            <div style="border-top: 1px dashed #3a3a3a;" class="mt-5 d-lg-flex justify-content-between align-items-center text-center">
+                            	<h4 class="mt-5">Link Profile with social account: </h4>
+                            	{% load socialaccount  %}
+					            {% providers_media_js  %}
+					            {% load i18n %}
+                            	<span class="d-md-flex mt-5">
+                            		<a class="btn btn-danger rounded-3 mx-1" href= "{% provider_login_url "google" method="js_sdk" process="connect" %}" >
+						            	<span class="m-1 bg-light rounded-5 text-dark"><i class="fa fa-google-plus m-1"></i></span>Google              
+						            </a>
+						            <a class="btn btn-primary rounded-3 m-1" href= "{% provider_login_url "facebook" method="oauth2" process="connect" %}">
+						            	<span class="m-1 bg-light rounded-5 text-primary"><i class="fa fa-facebook m-2"></i></span>Facebook
+						            </a>
+                            	</span>
                             </div>
 
 						</div>
@@ -71,9 +85,9 @@
 						  <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
 							<div class="col p-4 d-flex flex-column position-static">
 							  <h3 class="mb-0">{{post.title}}</h3>
-							  <div class="mb-1 text-secondary">{{post.date_updated|date:"M, W"}}</div>
+							  <div class="mb-1 text-secondary">{{post.date_updated|date:"M, d"}}</div>
 							  <a href="{{post.get_absolute_url}}" class="stretched-link">Continue reading</a>
-							  <p class="container ">{{post.body|truncatewords:20|safe}}</p>
+							  <p class="container ">{{post.body|truncatewords:5|safe}}</p>
 							</div>
 
 							<div class="col-auto d-none d-lg-block">
