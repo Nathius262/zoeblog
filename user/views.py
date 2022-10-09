@@ -45,7 +45,6 @@ def account_view(request):
     context['account_form'] = form
     return render(request, 'user/account.html', context)
 
-
 def profile_view(request, user):
     profile_id = get_object_or_404(Account, username=user)
     profile_obj = Account.objects.filter(username=profile_id)
@@ -94,7 +93,6 @@ def follow_view_get(request):
 
     return JsonResponse(context, safe=False)
 
-
 def follow_view(request):
     if request.POST:
         value = request.POST['value']
@@ -108,6 +106,17 @@ def follow_view(request):
             remove_follow.delete()
     return JsonResponse('success', safe=False)
 
+def login_status_view(request):
+    status = request.POST['status']
+    current_user = request.POST['user']
+    user = Account.objects.get(username=current_user)
+    if status == "online":
+        user.login_status = True
+    elif status == "offline":
+        user.login_status = False
+
+    user.save()
+    return JsonResponse('success', safe=False)
 
 def must_authenticate_view(request):
     return render(request, 'user/must_authenticate.html')

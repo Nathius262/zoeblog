@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'some_random_default_string')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False)
 
-ALLOWED_HOSTS = ['zoeblog.pythonanywhere.com']
+ALLOWED_HOSTS = ['zoeblog.pythonanywhere.com', '127.0.0.1']
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
