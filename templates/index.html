@@ -48,6 +48,7 @@
           var get_followers_url = "{% url 'user:getfollower' %}"
           var follow_url = "{% url 'user:follows' %}"
           var comment_reply_url = "{% url 'blog:comment_reply' %}"
+          var login_status_url = "{% url 'user:login_status' %}"
         </script>
     </head>
     <body>
@@ -59,12 +60,29 @@
         {% endblock content %}
 
          <!---footer----> 
+        <span style="position: fixed; bottom: 20px;  left: 20px;" class=""
+        id="internet_status"
+        ></span>
+          
         {% include 'snippets/footer_snippets.html' %}
 
         <!---JS LINK----> 
         <script>
           AOS.init({
             duration: 1200,
+          })
+
+          window.addEventListener("online", () => {
+            hasNetwork(true);
+            userStatus(true);
+          });
+          window.addEventListener("offline", () => {
+            hasNetwork(false);
+            userStatus(false);
+          });
+          
+          window.addEventListener('load', () => {
+            userStatus(navigator.onLine);
           })
         </script>   
         <script src="{% static '/js/bootstrap.js' %}"></script>        

@@ -5,6 +5,7 @@ from .views import (
     follow_view,
     follow_view_get,
     must_authenticate_view,
+    login_status_view,
 )
 
 app_name = 'user'
@@ -15,4 +16,5 @@ urlpatterns = [
     path('<user>/', profile_view, name="profile"),
     path('follow', follow_view, name="follows"),
     path('get/follow/', follow_view_get, name="getfollower"),
+    path('login/status', login_status_view, name="login_status"),
 ]

@@ -8,6 +8,35 @@ body::before{
     max-width: 1300px
 }
 
+/*profile*/
+.staus_online{
+  position: absolute;
+  top: 20px; 
+  right: 0px; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+  background-color: green; 
+  border-radius: 50%; 
+  width: 10px; 
+  height: 10px;
+}
+.staus_offline{
+  position: absolute;
+  top: 20px; 
+  right: 0px; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+  background-color: grey; 
+  border-radius: 50%; 
+  width: 10px; 
+  height: 10px;
+}
+/*profile end*/
+
 
 /*home*/
 /*home header*/

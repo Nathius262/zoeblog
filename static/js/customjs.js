@@ -1,3 +1,68 @@
+function hasNetwork(online) {
+    var status
+    var internet_status = document.getElementById('internet_status')
+
+    if (online){
+      status = "online"
+      internet_status.innerHTML = `
+        <span class="btn btn-dark btn-floating btn-lg border-0"><i class="fa fa-wifi text-success"></i>
+        <span>Internet restore!</span>
+        </span>`
+      setTimeout(function() {
+        console.log('yes')
+        $('#internet_status').empty();
+        }, 5000)
+
+      
+    }else{
+      status = "offline"
+      $('#internet_status').add();
+      internet_status.innerHTML = `
+        <span class="btn btn-dark btn-floating btn-lg border-0"><i class="fa fa-wifi text-warning"></i>
+          <span> No internet connection! <br> <span class="mt-0 fs-6">Make sure you're connected to the internet</span>
+          </span>
+        </span>`
+    }
+    postInternetStatus(status);
+}
+
+function postInternetStatus(status){
+    var userStatusData = {
+      'status': status,
+      'user': user,
+      'csrfmiddlewaretoken': csrf_token,
+    }
+
+    $.ajax({
+      type:'POST',
+      url: login_status_url,
+      data:userStatusData,
+      success: function(data){
+      },
+      error: function(error){
+        console.log(error)
+      },
+    });
+}
+
+function userStatus(online){
+    var status
+    var login_status = document.getElementById('status')
+
+    if (online){
+      status = "online"
+      login_status.classList.remove('staus_offline')
+      login_status.classList.add('staus_online')              
+    }else{
+      status = "offline"
+      login_status.classList.remove('staus_online')
+      login_status.classList.add('staus_offline')
+      $('#internet_status').add();
+    }
+
+    postInternetStatus(status);
+};
+
 function postLike(){
 	var like = document.getElementsByClassName('like_post');
 
@@ -37,7 +102,6 @@ function postLike(){
 			}
 		})
 	}
-
 }
 
 function postComment(){
@@ -249,8 +313,6 @@ function dislay_comment_form(post){
     }else{
         commentForm.style.display = "none"
     }
-   
-    
 }
 
 function myfunction(id){
@@ -268,8 +330,7 @@ function readURL(input){
         $('#id_image_display')
             .attr('src', e.target.result)
     };
-    reader.readAsDataURL(input.files[0]);
-    
+    reader.readAsDataURL(input.files[0]);   
 }
 
 //footer
@@ -297,7 +358,6 @@ function backToTop() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
-
 
 setTimeout(function(){
     if ($('#msg').length > 0){
