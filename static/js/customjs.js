@@ -9,7 +9,6 @@ function hasNetwork(online) {
         <span>Internet restore!</span>
         </span>`
       setTimeout(function() {
-        console.log('yes')
         $('#internet_status').empty();
         }, 5000)
 
@@ -40,7 +39,6 @@ function postInternetStatus(status){
       success: function(data){
       },
       error: function(error){
-        console.log(error)
       },
     });
 }
