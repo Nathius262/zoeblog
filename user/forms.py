@@ -24,6 +24,12 @@ class AccountUpdateForm(forms.ModelForm):
     class Meta:
         model = Account
         fields = ('email', 'username', 'name', 'picture')
+        widgets = {
+            'picture': forms.FileInput(attrs={'class': 'form-control', 'onchange': 'readURL(this)', 'id':'id_image_file', 'hidden':'True'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control rounded-3', 'id':'floatingInput', 'placeholder':"name@example.com"}),
+            'username': forms.TextInput(attrs={'class': 'form-control rounded-3', 'id':'floatingUsername', 'placeholder':"username"}),
+            'name': forms.TextInput(attrs={'class': 'form-control rounded-3', 'id':'floatingName', 'placeholder':"Name"}),
+        }
 
     def clean_email(self):
         if self.is_valid():
@@ -42,21 +48,3 @@ class AccountUpdateForm(forms.ModelForm):
             except Account.DoesNotExist:
                 return username
             raise forms.ValidationError('username "%s" is already in use.' % account.username)
-
-    def clean_name(self):
-        if self.is_valid():
-            name = self.cleaned_data['name']
-            try:
-                account = Account.objects.exclude(pk=self.instance.pk).get(name=name)
-            except Account.DoesNotExist:
-                return name
-            raise forms.ValidationError('name "%s" is already in use.' % account.name)
-
-    def clean_picture(self):
-        if self.is_valid():
-            picture = self.cleaned_data['picture']
-            try:
-                account = Account.objects.exclude(pk=self.instance.pk).get(picture=picture)
-            except Account.DoesNotExist:
-                return picture
-            raise forms.ValidationError('picture "%s" is already in use.' % account.picture)

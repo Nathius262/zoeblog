@@ -33,7 +33,8 @@
 
         <!--JS GLOBAL VARIABLE--->
         <script type="text/javascript">
-          var user = "{{request.user}}"
+          var user = "{{request.user.username}}"
+          
           var csrf_token = "{{csrf_token}}"
 
           // URL

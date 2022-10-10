@@ -26,13 +26,9 @@ def account_view(request):
     if request.POST:
         form = AccountUpdateForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
-            form.initial = {
-                "email": request.POST['email'],
-                "username": request.POST['username'],
-                "name": request.POST['name'],
-            }
-        form.save()
-        messages.success(request, "Your profile was updated successfully!")
+            form.save()
+            messages.success(request, "Your profile was updated successfully!")
+    
     else:
         form = AccountUpdateForm(
             initial={
