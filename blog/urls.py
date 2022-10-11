@@ -2,7 +2,6 @@ from django.urls import path
 from .views import (
 
     create_blog_view,
-    create_category_view,
     blog_view,
     CatListView,
     edit_blog_view,
@@ -24,7 +23,6 @@ urlpatterns = [
     path('<slug>/edit', edit_blog_view, name='edit'),
     path('category/<category>', CatListView.as_view(), name='category'),
     path('get/category/', category_list, name='category_list'),
-    path('create_category', create_category_view, name='create_category'),
     path('<slug:slug>/', DetailPostView.as_view(), name='details'),
     path('comment', comment_view, name='comment'),
     path('comment/reply', commet_reply_view, name='comment_reply'),

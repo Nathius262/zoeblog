@@ -204,15 +204,3 @@ class CatListView(ListView):
         }
 
         return content
-
-
-# create category view
-def create_category_view(request):
-    obj = json.loads(request.POST['catVal'])
-    cat, created = Category.objects.get_or_create(category_name=obj)
-    if not created:
-        content = "this category name already exist in the database!"
-    else:
-        content = "created category Successfully"
-
-    return JsonResponse(content, safe=False)
