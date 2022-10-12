@@ -38,9 +38,7 @@ class CreateBlogPostForm(forms.ModelForm):
 
         if len(body) < 250:
             self.errors['body'] = self.error_class(['A mininmum of 250 words is required in this field'])
-        elif len(body) > 5000:
-            self.errors['body'] = self.error_class(['A maximum of 5000 words is required in this field'])
-
+       
         if not category:
             self.errors['category'] = self.error_class(['Atleast one category must be selected is required in this field'])
 
