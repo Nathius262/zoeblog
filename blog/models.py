@@ -1,3 +1,4 @@
+from string import whitespace
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from hitcount.models import HitCount
@@ -10,7 +11,6 @@ from django.db.models.signals import post_delete, pre_save, post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
-from ckeditor.fields import RichTextField
 import os
 from PIL import Image
 
@@ -25,15 +25,28 @@ def upload_location(instance, filename):
     return file_path
 
 
-class Category(models.Model):
+class Category(MPTTModel):
     category_name = models.CharField(max_length=50, null=True, default='others', blank=False)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name="category_parent")
     date_updated = models.DateTimeField(auto_now=True,)
 
     class Meta:
         verbose_name_plural = "categories"
 
+
     def __str__(self):
         return self.category_name
+
+    class MPTTMeta:        
+        order_insertion_by = ['date_updated']
+
+    def __str__(self):
+        full_path = [self.category_name]
+        p = self.parent
+        while p is not None:
+            full_path.append(p.category_name)
+            p = p.parent
+        return ' -> '.join(full_path[::-1])
 
 
 class BlogPost(models.Model):

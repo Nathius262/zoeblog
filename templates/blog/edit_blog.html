@@ -20,18 +20,48 @@
 						{{form.title}}
 					</div>
 
-						<!-----category---->
+					<!-----category---->
+					<h3>{{form.category.label}}</h3>
+					<p class="text-center text-danger">{{form.category.errors.as_text}}</p>
+					{% load mptt_tags %}
 					<div class="form-control">
-						<p class="text-center text-danger">{{form.category.errors.as_text}}</p>
-					
-						<div class="mb-3 ">
-							{% for cat in form.category %}
-							<div class=" m-2">
-								{{cat}}
-							</div>
-							{%endfor%}
+						<div class="flex-shrink-0 p-3" style="width: 280px; color: rgb(39, 39, 39);">
+							<ul class="list-unstyled ps-0">
+								{% recursetree category %}
+								<li class="mb-1">
+									<div class="fs-5 d-flex align-items-center justify-content-between rounded border-0 dropdownBtn" data-bs-toggle="collapse" data-bs-target="#{{node.category_name}}" aria-expanded="false">
+										<span> {% if node.level == 0 %}  {{node.category_name|title}}{% else %}
+											<div class=" m-2">
+											<label for="id_category_{{node.id}}">
+												<input type="checkbox" name="category" value="{{node.id}}" class="form-check-input container" id="id_category_{{node.id}}" {% if node in form.initial.category %} checked{% endif %}>
+												{{node.category_name}}
+											</label>
+											</div>
+											{%endif%}
+										</span>
+										{% if not node.is_leaf_node %}<i class="fa fa-caret-right ms-5"> </i>{%endif%}
+									</div>
+									{% if not node.is_leaf_node %}
+									<div style=" border-top: 1px dashed rgb(107, 107, 107)" class="collapse" id="{{node.category_name}}">
+										<ul class="ms-4 list-unstyled fw-normal pb-1 small">
+											<li class="mt-1">
+												<div class="fs-5 d-inline-flex align-items-center">
+													<div class=" m-2">
+														<label for="id_category_{{node.id}}">
+															<input type="checkbox" name="category" value="{{node.id}}" class="form-check-input container" id="id_category_{{node.id}}" {% if node in form.initial.category %} checked{% endif %}>
+															{{node.category_name}}
+														</label>
+													</div>
+												</div>
+											</li>
+											{{children}}
+										</ul>
+									</div>			
+									{% endif %}
+								</li>
+							{% endrecursetree %}
+							</ul>
 						</div>
-					
 					</div>
 
 						<!-----body---->

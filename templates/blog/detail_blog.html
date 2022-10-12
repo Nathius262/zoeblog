@@ -51,7 +51,7 @@
 
          <div class="blog_detail_3_inner clearfix">
             <div class="container">
-                <p style="font-size: 25px;"><span class="fw-bold text-secondary">Category: </span>{%for obj in cat %}<a href="/blog/category/{{obj}}" class="link-primary rounded mx-1">-{{obj}}</a>{%endfor%}</p>
+                <p style="font-size: 25px;"><span class="fw-bold text-secondary">Category: </span>{%for obj in cat %}<a href="/blog/category/{{obj}}" class="link-primary rounded mx-1">-{{obj.category_name}}</a>{%endfor%}</p>
             </div>
            <div class="p_1 col-md-11 fs-5">{{post.body | safe}}</div>
          </div>

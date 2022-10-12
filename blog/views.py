@@ -19,9 +19,9 @@ from operator import attrgetter
 # all categories
 def category_list(request):
     category = Category.objects.all()
-    context = list(category.values())
+    context = {'category':category}
 
-    return JsonResponse(context, safe=False)
+    return context
 
 # create blog
 def create_blog_view(request):

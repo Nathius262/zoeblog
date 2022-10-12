@@ -38,13 +38,11 @@
           var csrf_token = "{{csrf_token}}"
 
           // URL
-          var get_category_url = "{% url 'blog:category_list' %}"
           var like_post_url  = "{% url 'blog:like' %}"
           var like_count_url = "{% url 'blog:likesCount' %}"
           var comment_post_url = "{% url 'blog:comment' %}"
           var delete_post_url = "{% url 'blog:delete_post' %}"
           var home_url = "{% url 'home' %}"
-          var category_list = "{% url 'blog:category_list' %}"
           var get_followers_url = "{% url 'user:getfollower' %}"
           var follow_url = "{% url 'user:follows' %}"
           var comment_reply_url = "{% url 'blog:comment_reply' %}"

@@ -1,14 +1,17 @@
+from pickletools import markobject
 from django import forms
 from user.models import Account
 from .models import BlogPost, Category, Comment
 from ckeditor.widgets import CKEditorWidget
+from mptt import forms as mpttForm
 
 
 class CreateBlogPostForm(forms.ModelForm):
 
     category = forms.ModelMultipleChoiceField(
         widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input container'}), 
-        queryset=Category.objects.all().exclude(id=1))
+        queryset=Category.objects.all().exclude(id=1),
+    )
 
     class Meta:
         model = BlogPost

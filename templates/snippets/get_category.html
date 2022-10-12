@@ -1,4 +1,29 @@
-<div class="article_home_right_2 clearfix mt-5">
-	<h3>CATEGORIES</h3>
-	<div id="CategoryList"></div>             
-</div><br>
+
+{% load mptt_tags %}
+<div class="flex-shrink-0 p-3" style="width: 280px; color: aliceblue;">
+    <div class="d-flex align-items-center pb-3 mb-2">
+      <span class="fs-4 fw-bold">CATEGORY</span>
+	</div>
+    <ul class="list-unstyled ps-0">
+		{% recursetree category %}
+      <li class="mb-1">
+        <div class="text-light fs-5 d-flex align-items-center justify-content-between rounded border-0 dropdownBtn" data-bs-toggle="collapse" data-bs-target="#{{node.category_name}}" aria-expanded="false">
+			<span> {% if node.level == 0 %}  {{node.category_name|title}}{% else %}<a href="/blog/category/{{node}}" class="fs-5 text-light fw-light">  {{node.category_name|title}}</a>{%endif%}</span>
+			{% if not node.is_leaf_node %}<i class="fa fa-caret-right ms-5"> </i>{%endif%}
+		</div>
+		{% if not node.is_leaf_node %}
+		<div style=" border-top: 1px dashed rgb(107, 107, 107)" class="collapse" id="{{node.category_name}}">
+			<ul class="ms-4 list-unstyled fw-normal pb-1 small">
+				<li class="mt-1">
+					<div class="fs-5 d-inline-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#{{node.category_name}}">
+						<a href="/blog/category/{{node}}" class="text-light fw-light">{{node|title}}</a>
+					</div>
+				</li>
+				{{children}}
+			</ul>
+		</div>			
+		{% endif %}
+      </li>
+	  {% endrecursetree %}
+    </ul>
+</div>

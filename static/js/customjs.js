@@ -363,37 +363,13 @@ setTimeout(function(){
     }
 }, 5000)
 
-$(document).ready(function(){
-    setInterval (function(){
-       $.ajax({
-            type:'GET',                
-            url: get_category_url,
-            success: function(data){
-
-                $('#CategoryList').empty();
-                for (var i=0; i<data.length; i++){
-                    var category_name = data[i]['category_name']
-                    var CatList = document.getElementById('categoryList')
-                    obj = 
-                        `
-                            <p class="">
-                                <a href="/blog/category/`+category_name+`" class="text-decoration-none">
-                                  `+ category_name +`
-                                </a>
-                            </p>
-
-                        `
-                    $('#CategoryList').append(obj)
-                }
-            },
-        }) 
-    }, 2000)
-
-})
-
 function srcToFile(src, fileName, mimeType){
     return (fetch(src)
         .then(function(res){return res.arrayBuffer();})
         .then(function(buf){return new File([buf], fileName, {type:mimeType});})
     );
 }
+
+$('.dropdownBtn').click(function(){
+    $(this).children('i').toggleClass('fa-caret-right fa-caret-down')
+})
