@@ -14,7 +14,7 @@ import json
 
 def latest_blog_post(request):
     context= {}
-    context['latest_posts'] = BlogPost.objects.order_by('-date_published')[:5],
+    context['latest_posts'] = BlogPost.objects.order_by('-date_published')[:7],
     return context
 
 def home_screen_view(request):

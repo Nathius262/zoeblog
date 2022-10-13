@@ -5,7 +5,7 @@
         <div class="container-fluid">
                 {% if request.user.is_authenticated %}
                     <div class ="navbar-brand d-flex">
-                            Welcome back, {{request.user.username}}, <!---{{ request.user.socialaccount_set.all.0.extra_data.name }}--->
+                            {{request.user.username}}, <!---{{ request.user.socialaccount_set.all.0.extra_data.name }}--->
                         {% if request.user.picture %}
                           <div style="position: relative;">
                             <a href="{% url 'user:profile' request.user.username %}" style="border:none; background-image: url('{{request.user.picture_url}}'); " type="submit" class="ms-3 header_img" ></a><div id="status" class=""></div>
