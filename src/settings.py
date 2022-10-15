@@ -175,7 +175,7 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-SITE_ID = 1
+SITE_ID = 3
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -225,7 +225,6 @@ EMAIL_HOST_PASSWORD = 'etzauornsuhmeutv' #password associated with above email-i
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
-LOGIN_REDIRECT_URL = "/account/profile/"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_FORMS = {'signup': 'user.forms.RegistrationForm'}
@@ -238,10 +237,10 @@ ACCOUNT_SESSION_REMEMBER = True
 
 # Additional configuration settings
 SOCIALACCOUNT_QUERY_EMAIL = True
-ACCOUNT_LOGOUT_ON_GET = False
+ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-#SOCIALACCOUNT_ADAPTER = 'user.adapter.SocialAdapter'
+#SOCIALACCOUNT_ADAPTER = 'user.adapter.SocialAccountAdapter'
 
 # Additional configuration settings
 SOCIALACCOUNT_QUERY_EMAIL = True

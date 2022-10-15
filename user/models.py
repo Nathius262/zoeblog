@@ -2,11 +2,13 @@ import os
 
 from PIL import Image
 from django.db.models.signals import post_save
+from allauth.socialaccount.models import SocialAccount
 from django.dispatch import receiver
 from django.urls import reverse
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, User
+from my_test_reference import testingImage, create_or_get_path
 
 
 def image_location(instance, filename):
@@ -105,7 +107,23 @@ def save_profile_img(sender, instance, *args, **kwargs):
             if pic.mode in ("RGBA", 'P'):
                 profile_pic = pic.convert("RGB")
                 profile_pic.thumbnail(SIZE, Image.LANCZOS)
-                profile_pic.save(instance.picture.path)        
+                profile_pic.save(instance.picture.path)  
+
+def save_profile(sender, instance, **kwargs):
+    instance.user.name = instance.extra_data['name']
+    picture = instance.get_avatar_url()
+    if picture:
+        picture_url = f"{picture}"
+        #get or create path for user
+        path = f'media_cdn/profile/user_{instance.user.id}'
+        create_or_get_path(path)
+
+        filename = f'media_cdn/profile/user_{instance.user.id}/profile.jpeg'
+        testingImage(picture_url, filename)
+        instance.user.picture = f'profile/user_{instance.user.id}/profile.jpeg'
+    instance.user.save()
+
+post_save.connect(save_profile, sender=SocialAccount)      
 
 
 
