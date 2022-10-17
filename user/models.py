@@ -80,7 +80,7 @@ class Account(AbstractBaseUser):
         except :
             pic = ''
         return pic
-    
+
 
     def get_absolute_url(self):
         return reverse('profile', args=[self.username])
@@ -107,7 +107,7 @@ def save_profile_img(sender, instance, *args, **kwargs):
             if pic.mode in ("RGBA", 'P'):
                 profile_pic = pic.convert("RGB")
                 profile_pic.thumbnail(SIZE, Image.LANCZOS)
-                profile_pic.save(instance.picture.path)  
+                profile_pic.save(instance.picture.path)
 
 def save_profile(sender, instance, **kwargs):
     instance.user.name = instance.extra_data['name']
@@ -115,15 +115,15 @@ def save_profile(sender, instance, **kwargs):
     if picture:
         picture_url = f"{picture}"
         #get or create path for user
-        path = f'media_cdn/profile/user_{instance.user.id}'
+        path = f'zoeblog/media_cdn/profile/user_{instance.user.id}'
         create_or_get_path(path)
 
-        filename = f'media_cdn/profile/user_{instance.user.id}/profile.jpeg'
+        filename = f'zoeblog/media_cdn/profile/user_{instance.user.id}/profile.jpeg'
         testingImage(picture_url, filename)
         instance.user.picture = f'profile/user_{instance.user.id}/profile.jpeg'
     instance.user.save()
 
-post_save.connect(save_profile, sender=SocialAccount)      
+post_save.connect(save_profile, sender=SocialAccount)
 
 
 
