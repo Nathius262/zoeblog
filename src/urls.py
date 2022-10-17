@@ -18,11 +18,17 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from django.contrib.sitemaps.views import sitemap
+from home.sitemaps import HomeStaticSitemap
 
 from home.views import (
     home_screen_view,
     search_view,
 )
+
+sitemaps = {
+    'static': HomeStaticSitemap
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,6 +37,7 @@ urlpatterns = [
     path('hitcount/', include(('hitcount.urls', 'hitcount'), namespace='hitcount')),
 
     path('', home_screen_view, name="home"),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('search/', search_view, name='search'),
 
     path('profile/', include('user.urls', 'user')),

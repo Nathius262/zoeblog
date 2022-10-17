@@ -1,4 +1,6 @@
 from django.urls import path
+from django.contrib.sitemaps.views import sitemap
+from .sitemaps import BlogPostSitemap
 from .views import (
 
     create_blog_view,
@@ -17,6 +19,10 @@ from .views import (
 
 app_name = 'blog'
 
+sitemaps = {
+    'blog':BlogPostSitemap
+}
+
 urlpatterns = [
 
     path('create/', create_blog_view, name='create'),
@@ -30,4 +36,5 @@ urlpatterns = [
     path('likes', likesCount, name='likesCount'),
     path('delete', delete_post, name='delete_post'),
     path('', blog_view, name='blog'),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ]

@@ -83,7 +83,7 @@ class Account(AbstractBaseUser):
 
 
     def get_absolute_url(self):
-        return reverse('profile', args=[self.username])
+        return reverse('user:profile', args=[self.username])
 
     def __str__(self):
         return self.username
