@@ -1,0 +1,7 @@
+User-Agent: *
+
+Disallow: 
+
+Sitemap: https://zoeblog.pythonanywhere.com/sitemap.xml
+Sitemap: https://zoeblog.pythonanywhere.com/blog/sitemap.xml
+Sitemap: https://zoeblog.pythonanywhere.com/profile/sitemap.xml
