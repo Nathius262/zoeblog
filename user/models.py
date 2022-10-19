@@ -110,18 +110,21 @@ def save_profile_img(sender, instance, *args, **kwargs):
                 profile_pic.save(instance.picture.path)
 
 def save_profile(sender, instance, **kwargs):
-    instance.user.name = instance.extra_data['name']
-    picture = instance.get_avatar_url()
-    if picture:
-        picture_url = f"{picture}"
+    try:
+        instance.user.name = instance.extra_data['name']
+        picture = instance.get_avatar_url()
+        instance.user.picture = picture
+        instance.user.save()
+    except OSError:
+        picture_url = f"{instance.user.picture}"
         #get or create path for user
-        path = f'zoeblog/media_cdn/profile/user_{instance.user.id}'
+        path = f'media_cdn/profile/user_{instance.user.id}'
         create_or_get_path(path)
 
-        filename = f'zoeblog/media_cdn/profile/user_{instance.user.id}/profile.jpeg'
+        filename = f'media_cdn/profile/user_{instance.user.id}/profile.jpeg'
         testingImage(picture_url, filename)
         instance.user.picture = f'profile/user_{instance.user.id}/profile.jpeg'
-    instance.user.save()
+        instance.user.save()
 
 post_save.connect(save_profile, sender=SocialAccount)
 
