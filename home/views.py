@@ -14,12 +14,6 @@ from django.core import serializers
 import json
 
 
-class DNSView(View):
-
-    def get(self, request, *args, **kwargs):
-        return render(request, "dns.txt")
-
-
 class GoogleVerifyView(View):
 
     def get(self, request, *args, **kwargs):

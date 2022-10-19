@@ -25,7 +25,6 @@ from django.views.generic.base import TemplateView #import TemplateView
 from home.views import (
     home_screen_view,
     search_view,
-    DNSView,
     GoogleVerifyView,
 )
 
@@ -43,7 +42,7 @@ urlpatterns = [
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('search/', search_view, name='search'),
     path("robots.txt",TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),  #add the robots.txt file
-    path('dns.txt', DNSView.as_view()),
+    path("dns.txt",TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),  #add the robots.txt file
     path('googleb1215a559aaa2a13.html', GoogleVerifyView.as_view()),
 
     path('profile/', include('user.urls', 'user')),

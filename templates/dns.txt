@@ -1,4 +1,8 @@
-google-site-verification=3a9PkM4wvB_7aFQ4K7v3F9Tz6J6neh9-2_AZlVT_eGQ
+User-Agent: *
+
+Disallow: 
+
+google-site-verification: 3a9PkM4wvB_7aFQ4K7v3F9Tz6J6neh9-2_AZlVT_eGQ
 
 CNAME Label/Host: 4pnmt32hkvom
 
