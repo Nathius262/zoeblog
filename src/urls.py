@@ -20,10 +20,13 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.contrib.sitemaps.views import sitemap
 from home.sitemaps import HomeStaticSitemap
+from django.views.generic.base import TemplateView #import TemplateView
 
 from home.views import (
     home_screen_view,
     search_view,
+    DNSView,
+    GoogleVerifyView,
 )
 
 sitemaps = {
@@ -39,6 +42,9 @@ urlpatterns = [
     path('', home_screen_view, name="home"),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('search/', search_view, name='search'),
+    path("robots.txt",TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),  #add the robots.txt file
+    path('dns.txt', DNSView.as_view()),
+    path('googleb1215a559aaa2a13.html', GoogleVerifyView.as_view()),
 
     path('profile/', include('user.urls', 'user')),
     path('blog/', include('blog.urls', 'blog')),

@@ -8,8 +8,22 @@ from mptt.templatetags.mptt_tags import cache_tree_children as child
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from django.http import JsonResponse, HttpResponse
+from django.views import View
+
 from django.core import serializers
 import json
+
+
+class DNSView(View):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, "dns.txt")
+
+
+class GoogleVerifyView(View):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, "googleb1215a559aaa2a13.html")
 
 
 def latest_blog_post(request):
@@ -25,7 +39,7 @@ def home_screen_view(request):
     for i in category:
         getCategory = str(i.category_name)
         cat.append(getCategory)
-        
+
         posts = sorted(get_blog_category_queryset(getCategory), key=attrgetter('date_updated'), reverse=True)
         post.append(posts[0:3])
 

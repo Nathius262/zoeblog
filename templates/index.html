@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="google-site-verification" content="zN2AjGtKUYqJaIP6szMQ9okdbfDERS2NOo9eQ46CG_o" />
 
 
         <title>{% block title %}{% endblock %}</title>
@@ -22,8 +23,8 @@
         <link rel="stylesheet" type="text/css" href="{% static '/css/font-awesome.min.css' %}" />
 
         <link href="{% static 'css/aos.css' %}" rel="stylesheet" media="all">
-        
-        
+
+
         <!-- JQ-CROPPER --->
         <script src="{% static '/js/jquery-2.1.1.min.js' %}"></script>
         <script src="{% static '/js/cropper.js' %}"></script>
@@ -34,7 +35,7 @@
         <!--JS GLOBAL VARIABLE--->
         <script type="text/javascript">
           var user = "{{request.user.username}}"
-          
+
           var csrf_token = "{{csrf_token}}"
 
           // URL
@@ -51,20 +52,20 @@
     </head>
     <body>
 
-        <!---header----> 
+        <!---header---->
         {% include 'snippets/header_snippets.html' %}
 
         {% block content %}
         {% endblock content %}
 
-         <!---footer----> 
+         <!---footer---->
         <span style="position: fixed; bottom: 20px;  left: 20px;" class=""
         id="internet_status"
         ></span>
-          
+
         {% include 'snippets/footer_snippets.html' %}
 
-        <!---JS LINK----> 
+        <!---JS LINK---->
         <script>
           AOS.init({
             duration: 1200,
@@ -78,14 +79,14 @@
             hasNetwork(false);
             userStatus(false);
           });
-          
+
           window.addEventListener('load', () => {
             userStatus(navigator.onLine);
           })
-        </script>   
-        <script src="{% static '/js/bootstrap.js' %}"></script>        
+        </script>
+        <script src="{% static '/js/bootstrap.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/customjs.js' %}"></script>
-        
+
     </body>
 
 </html>
