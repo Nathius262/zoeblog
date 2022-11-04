@@ -58,6 +58,7 @@
                             	{% load socialaccount  %}
 					            {% providers_media_js  %}
 					            {% load i18n %}
+								{% if request.user %}
                             	<span class="d-md-flex mt-5">
                             		<a class="btn btn-danger rounded-3 mx-1" href= "{% provider_login_url "google" method="js_sdk" process="connect" %}" >
 						            	<span class="m-1 bg-light rounded-5 text-dark"><i class="fa fa-google-plus m-1"></i></span>Google              
@@ -66,6 +67,7 @@
 						            	<span class="m-1 bg-light rounded-5 text-primary"><i class="fa fa-facebook m-2"></i></span>Facebook
 						            </a>
                             	</span>
+								{% endif %}
                             </div>
 
 						</div>
