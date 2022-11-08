@@ -10,6 +10,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, User
 from my_test_reference import testingImage, create_or_get_path
 
+from rest_framework.authtoken.models import Token
+
+
 
 def image_location(instance, filename):
     file_path = 'profile/user_{username}/profile.jpeg'.format(
@@ -138,6 +141,10 @@ def save_profile(sender, instance, **kwargs):
 
 post_save.connect(save_profile, sender=SocialAccount)
 
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
 
 
 class Follower(models.Model):

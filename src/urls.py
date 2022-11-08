@@ -47,6 +47,10 @@ urlpatterns = [
 
     path('profile/', include('user.urls', 'user')),
     path('blog/', include('blog.urls', 'blog')),
+
+    # REST FRAMEWORK
+    path('api/', include('blog.api.urls', 'blog_api')),
+    path('api/', include('user.api.urls', 'user_api')),
 ]
 
 if settings.DEBUG:

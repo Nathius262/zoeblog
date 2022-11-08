@@ -48,6 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
 
+    #rest api
+    'rest_framework',
+    'rest_framework.authtoken',
+
     # my installed app
     'user',
     'blog',

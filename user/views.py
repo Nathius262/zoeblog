@@ -1,12 +1,9 @@
 import os
-import urllib
-
 from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from django.http import JsonResponse
 
 from django.contrib import messages
-from my_test_reference import testingImage, create_or_get_path
 from .forms import AccountUpdateForm
 from .models import Account, Follower
 from django.shortcuts import render, redirect, get_object_or_404
@@ -49,12 +46,17 @@ def profile_view(request, user):
     logged_in_user = request.user
 
     post_obj = BlogPost.objects.all().filter(author=profile_id)
-    
+    socialacct =  SocialAccount.objects.all().filter(user=request.user)
+    a=[]
+    for i in socialacct:
+        a.append(i.provider)
+
     content = {
         'profile': profile_obj,
         'post': post_obj,
         'current_user': current_user,
         'logged_in_user': logged_in_user,
+        'socialuser': sorted(a, reverse=False),
     }
     return render(request, 'user/profile.html', content)
 

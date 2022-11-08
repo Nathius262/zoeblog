@@ -61,16 +61,28 @@
                             	{% load socialaccount  %}
 					            {% providers_media_js  %}
 					            {% load i18n %}
-								
+
                             	<span class="d-md-flex mt-5">
-                            		<a class="btn btn-danger rounded-3 mx-1" href= "{% provider_login_url "google" method="js_sdk" process="connect" %}" >
-						            	<span class="m-1 bg-light rounded-5 text-dark"><i class="fa fa-google-plus m-1"></i></span>Google              
-						            </a>
+									{% if 'facebook' in socialuser and 'google' in socialuser %}
+									<i class="fa fa-warning text-warning"><span class="text-light">Your profile is already linked with facebook and google</span></i>
+									{% elif "google" in socialuser %}
 						            <a class="btn btn-primary rounded-3 m-1" href= "{% provider_login_url "facebook" method="oauth2" process="connect" %}">
 						            	<span class="m-1 bg-light rounded-5 text-primary"><i class="fa fa-facebook m-2"></i></span>Facebook
 						            </a>
+									{% elif "facebook" in socialuser %}
+                            		<a class="btn btn-danger rounded-3 mx-1" href= "{% provider_login_url "google" method="js_sdk" process="connect" %}" >
+						            	<span class="m-1 bg-light rounded-5 text-dark"><i class="fa fa-google-plus m-1"></i></span>Google              
+									</a>									
+									{% else %}
+										<a class="btn btn-primary rounded-3 m-1" href= "{% provider_login_url "facebook" method="oauth2" process="connect" %}">
+											<span class="m-1 bg-light rounded-5 text-primary"><i class="fa fa-facebook m-2"></i></span>Facebook
+										</a>
+
+										<a class="btn btn-danger rounded-3 mx-1" href= "{% provider_login_url "google" method="js_sdk" process="connect" %}" >
+											<span class="m-1 bg-light rounded-5 text-dark"><i class="fa fa-google-plus m-1"></i></span>Google              
+										</a>
+									{% endif %}
                             	</span>
-								
                             </div>
 							{% endif %}
 						</div>
