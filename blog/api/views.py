@@ -1,12 +1,13 @@
 from ..models import BlogPost
 from .serializer import BlogPostSerializer
 from rest_framework import mixins, generics
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.response import Response
+from rest_framework import status
 from user.models import Account
 
 # page size
@@ -15,7 +16,7 @@ class SetBlogPostPaginationResult(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
-class BlogPostViewSet(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin):
+class BlogPostViewSet(generics.GenericAPIView, mixins.ListModelMixin, mixins.DestroyModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin):
     serializer_class = BlogPostSerializer
     queryset = BlogPost.objects.all()
     lookup_field = 'slug'
@@ -41,23 +42,22 @@ class BlogPostViewSet(generics.GenericAPIView, mixins.ListModelMixin, mixins.Cre
     def delete(self, request, slug=None):
         obj = BlogPost.objects.all().filter(slug=slug).first()
         if str(request.user) == str(obj.author):
-            return self.destroy(request)
+            self.destroy(request)
+            return Response({'response': f'"{obj.title}" has been deleted'}, status=status.HTTP_204_NO_CONTENT)
         else:
             return Response({'response': f'You do not have access to delete this post; You are not an author of "{obj.title}"'})
 
 
-@api_view(['post',])
+@api_view(['POST',])
+@permission_classes((IsAuthenticated,))
 def create_post_view(request):
-    serializer = BlogPostSerializer(data=request.data)
-    data = {}
-    if serializer.is_valid():
-        user = Account.objects.all().filter(username=request.data['author'])
-        post = serializer.save(author=user)
-        data['response'] = "successfully register a new user"
-        data['title'] = post.title
-        data['body'] = post.body
-        data['author'] = post.author
+    # get the author of the blog post
+    account = request.user
+    blog_post = BlogPost(author=account)
+    serializer = BlogPostSerializer(blog_post, data=request.data)
 
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
-        data = serializer.errors
-    return Response(data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
