@@ -16,6 +16,8 @@ class SetUsersPaginationResult(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
+
+#get the details of the anthenticated user to edit...
 class UserProfileSetting(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
     serializer_class = UserProfileDetailedSerializer
     queryset = Account.objects.all()
@@ -35,9 +37,8 @@ class UserProfileSetting(generics.GenericAPIView, mixins.RetrieveModelMixin, mix
         
     def destroy(self, request, username):
         return self.destroy(request)
-        
-        
 
+#get the list of all users
 class UserProfileGenericView(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.ListModelMixin):
 
     serializer_class = UserProfileSerializer
@@ -58,11 +59,12 @@ def signup_view(request):
     data = {}
     if serializer.is_valid():
         account = serializer.save()
-        data['response'] = "successfully register a new user"
-        data['email'] = account.email
-        data['username'] = account.username
-        token = Token.objects.get(user=account).key
-        data['token'] = token
+        data = {
+            'response': "successfully registered a new user",
+            'email': account.email,
+            'username': account.username,
+            'token': Token.objects.get(user=account).key,
+        }
     else:
         data = serializer.errors
     return Response(data)
