@@ -44,21 +44,27 @@ function postInternetStatus(status){
 }
 
 function userStatus(online){
-    var status
-    var login_status = document.getElementById('status')
 
-    if (online){
-      status = "online"
-      login_status.classList.remove('staus_offline')
-      login_status.classList.add('staus_online')              
+    if( user == 'AnonymousUser' || user == ''){
+        
     }else{
-      status = "offline"
-      login_status.classList.remove('staus_online')
-      login_status.classList.add('staus_offline')
-      $('#internet_status').add();
-    }
+        var status
+        var login_status = document.getElementById('status')
 
-    postInternetStatus(status);
+        if (online){
+            status = "online"
+            login_status.classList.remove('staus_offline')
+            login_status.classList.add('staus_online')              
+        }else{
+            status = "offline"
+            login_status.classList.remove('staus_online')
+            login_status.classList.add('staus_offline')
+            $('#internet_status').add();
+        }
+
+        postInternetStatus(status);
+    }
+    
 };
 
 function postLike(){
@@ -373,3 +379,127 @@ function srcToFile(src, fileName, mimeType){
 $('.dropdownBtn').click(function(){
     $(this).children('i').toggleClass('fa-caret-right fa-caret-down')
 })
+
+
+/***
+ * 
+ * changing screen from dark mode or any initial given mode to light screen mode
+ * 
+ ***/
+function getScreenMode() {
+
+    if (user == 'AnonymousUser' || user == ''){
+        var mode = localStorage['screen_mode']        
+        if (mode =='Light'){
+            initialTheme = true;
+        }else{
+            initialTheme = false;
+        }  
+        toggleColors();
+    }else {
+        $.ajax({
+            type:'GET',
+            url: screen_mode,
+            success: function(data){
+                var mode = data['mode']
+                if (mode =='Dark'){
+                    initialTheme = false;
+                }else{
+                    initialTheme = true;
+                }  
+                toggleColors();
+            },
+            error:function(error){
+                console.log(error)
+            },
+        })
+    }
+    
+}
+
+function postScreenMode() {
+    if (user == 'AnonymousUser' || user == ''){
+        if (initialTheme == false){
+            localStorage['screen_mode']  = 'Dark'
+        }else{
+            localStorage['screen_mode']  = 'Light'
+        }
+        toggleColors();
+    }else{
+        if (initialTheme == false){
+            mode = 'Dark'
+        }else{
+            mode = 'Light'
+        }
+
+        $.ajax({
+            type:'POST',
+            url: screen_mode,
+            data:{
+                mode,
+                csrfmiddlewaretoken:(csrf_token)
+            },
+            success: function(data){
+                toggleColors();
+            },
+            error: function(error){
+            },
+        });
+    }
+
+    
+}
+
+function toggleColors() {   
+    const root = document.documentElement.style;
+    const darkmode = $('.darkMode-wrap')
+    const s_mode = $('#s-mode')
+
+    if(initialTheme) {
+
+        //style btn attr
+        //remove initial class list
+        darkmode.children('button').children('i').removeClass('text-light')
+        darkmode.children('button').removeClass('btn-dark')
+        darkmode.removeClass('bg-light')
+        s_mode.removeClass('text-light')
+        //add new class list
+        darkmode.children('button').children('i').addClass('text-dark')
+        darkmode.children('button').addClass('btn-light')
+        darkmode.addClass('bg-dark')
+        s_mode.addClass('text-dark')
+
+        //style var attr
+        root.setProperty('--dark', 'rgb(255, 255, 255)');
+        root.setProperty('--white', 'rgb(35, 35, 35)');
+        root.setProperty('--lightgray1', '#616060');
+        root.setProperty('--lightgray2', '#b5c3cb');
+        root.setProperty('--lightgrey_phover', '#999)');
+        root.setProperty('--grey', '#e5e5e5');
+        document.getElementById('s-mode').innerHTML = 'Switch to dark mode'
+        initialTheme = false;  
+    } else {
+
+        //style btn attr
+        //remove initial class list
+        darkmode.children('button').children('i').removeClass('text-dark')
+        darkmode.children('button').removeClass('btn-light')
+        darkmode.removeClass('bg-dark')
+        s_mode.removeClass('text-dark')
+        //add new class list
+        darkmode.children('button').children('i').addClass('text-light')
+        darkmode.children('button').addClass('btn-dark')
+        darkmode.addClass('bg-light')
+        s_mode.addClass('text-light')
+
+        //style var attr
+        root.setProperty('--dark', '#111');
+        root.setProperty('--white', '#fff');
+        root.setProperty('--lightgray1', '#f4f4f4');
+        root.setProperty('--lightgray2', '#b5c3cb');
+        root.setProperty('--lightgrey_phover', '#999)');
+        root.setProperty('--grey', '#e5e5e5');
+        document.getElementById('s-mode').innerHTML = 'Switch to light mode'
+        initialTheme = true;
+    }
+}

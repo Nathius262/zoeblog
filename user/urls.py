@@ -1,14 +1,7 @@
 from django.urls import path
 from django.contrib.sitemaps.views import sitemap
 from .sitemaps import AccountSitemap
-from .views import (
-    account_view,
-    profile_view,
-    follow_view,
-    follow_view_get,
-    must_authenticate_view,
-    login_status_view,
-)
+from .views import *
 
 app_name = 'user'
 
@@ -17,6 +10,7 @@ sitemaps = {
 }
 
 urlpatterns = [
+    path('screen-mode/', screen_mode_view, name='screen_mode'),
     path('account/authenticate/', must_authenticate_view, name='must_authenticate'),
     path('settings', account_view, name="settings"),
     path('<user>/', profile_view, name="profile"),

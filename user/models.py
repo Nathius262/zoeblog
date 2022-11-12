@@ -97,6 +97,15 @@ class Account(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
+mode_choice = (
+    ('Dark', 'Dark'),
+    ('Light', 'Light')
+)
+
+class UserPreferedScreenMode(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
+    mode = models.CharField(choices=mode_choice, default='Dark', max_length=10,
+                             null=True, blank=True)
 
 @receiver(post_save, sender=Account)
 def save_profile_img(sender, instance, *args, **kwargs):

@@ -1,7 +1,7 @@
 <input type="hidden" name="post" value="{{post.id}}">
- <textarea name="content" class="form-control form_1 text-light" placeholder="Comment:" required></textarea>
+ <textarea name="content" class="form-control form_1" placeholder="Comment:" required></textarea>
 {% if not request.user.is_authenticated %}
-<input name="name_comment" class="form-control form_2 text-light" type="text" placeholder="Name: *">
-<input name="email_comment" class="form-control form_2 text-light" type="text" placeholder="Email: *">
-<input name="username_comment" class="form-control form_2 text-light" type="text" placeholder="User: Guest" readonly>
+<input name="name_comment" class="form-control form_2" type="text" placeholder="Name: *">
+<input name="email_comment" class="form-control form_2" type="text" placeholder="Email: *">
+<input name="username_comment" class="form-control form_2" type="text" placeholder="User: Guest" readonly>
 {%endif%}

@@ -7,7 +7,7 @@
 
 {% block content %}
 <!---main---->
-<section id="blog_page" style="background:#111;">
+<section id="blog_page">
  <div class="container mt-5">
     <div class="row">
       <div class="blog_page clearfix d-lg-flex justify-content-between me-3">
@@ -25,7 +25,7 @@
 
 
           {% for post in all_post %}
-          <div class="center_blog_left clearfix mb-5 test" data-post="{{post.id}}">
+          <div class="center_blog_left clearfix mb-5 test shadow" data-post="{{post.id}}">
           
             <div class="container">
               <h6><i class="fa fa-pencil"></i>Created by <span>{{post.author}}</span> {{ post.date_published|naturalday}}</h6>

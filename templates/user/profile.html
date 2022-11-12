@@ -9,14 +9,14 @@
 {% get_providers as socialaccount_providers %}
 <div style="margin-bottom: 300px;" class="container mt-5">
 	<div class="row">
-		<div class="album py-3 text-light">
+		<div class="album py-3 ntx">
 			<h2 class="container pb-3">PROFILE</h2>
 		    <div class="container ">
 		        <div class="row">
 		            {% for obj in profile %}
 					<div class="d-md-flex d-block">
 
-						<div style="background-color: #1c1919" class="shadow p-2 ">
+						<div class="shadow p-2 ntx_dark">
 							<div class="container" style="border-radius:50%; background-image: url('{{obj.picture_url}}'); background-color: grey; background-size: cover; width:200px; height:200px;" >
 							</div>							
 						</div>
@@ -48,7 +48,7 @@
 
 								 <form method="POST" id="follow_formId" class="follow_form m-3 m-md-0 m-lg-0" data-follower="{{logged_in_user}}" data-user="{{current_user}}">
 								 	{%csrf_token%}
-								 	<button id="follow_btn" class="btn btn-outline-dark text-light" type="submit"></button>
+								 	<button id="follow_btn" class="btn btn-outline-dark ntx" type="submit"></button>
 								 </form>
 
 								{% if current_user == logged_in_user %}
@@ -64,7 +64,7 @@
 
                             	<span class="d-md-flex mt-5">
 									{% if 'facebook' in socialuser and 'google' in socialuser %}
-									<i class="fa fa-warning text-warning"><span class="text-light">Your profile is already linked with facebook and google</span></i>
+									<i class="fa fa-warning text-warning"><span class="ntx">Your profile is already linked with facebook and google</span></i>
 									{% elif "google" in socialuser %}
 						            <a class="btn btn-primary rounded-3 m-1" href= "{% provider_login_url "facebook" method="oauth2" process="connect" %}">
 						            	<span class="m-1 bg-light rounded-5 text-primary"><i class="fa fa-facebook m-2"></i></span>Facebook

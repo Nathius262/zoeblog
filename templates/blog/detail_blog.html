@@ -7,7 +7,7 @@
 {% load humanize %}
 {% block content %}
 
-<section id="blog_page"  style="background:#111;">
+<section id="blog_page">
  <div class="container">
   <div class="row">
    <div class="blog_page clearfix test d-lg-flex justify-content-between me-3" data-post="{{post.id}}">
@@ -90,7 +90,7 @@
          <div class="blog_comment_2 clearfix">          
 
           <div class="middle_right_1 clearfix">
-            <h4 class="text-light fw-light">Next blog</h4>
+            <h4 class="fw-light ntx">Next blog</h4>
             {% for related in related_post %}
             <div class="middle_right_1_inner clearfix">
               <div class="col-md-4 space_all">

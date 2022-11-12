@@ -5,7 +5,7 @@ from django.http import JsonResponse
 
 from django.contrib import messages
 from .forms import AccountUpdateForm
-from .models import Account, Follower
+from .models import Account, Follower, UserPreferedScreenMode
 from django.shortcuts import render, redirect, get_object_or_404
 
 from blog.models import BlogPost
@@ -37,6 +37,19 @@ def account_view(request):
         )
     context['account_form'] = form
     return render(request, 'user/account.html', context)
+
+def screen_mode_view(request):
+    if request.user.is_authenticated:
+        user = request.user
+        screen_mode, created = UserPreferedScreenMode.objects.get_or_create(user=user)
+        if request.POST:
+            mode = request.POST['mode']
+            screen_mode.mode = mode
+            screen_mode.save()
+        return JsonResponse({'mode':screen_mode.mode}, safe=False)
+    else:
+        return JsonResponse({'response': 'user not authentiacted'}, safe=False)
+
 
 def profile_view(request, user):
     profile_id = get_object_or_404(Account, username=user)

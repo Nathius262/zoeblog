@@ -35,11 +35,16 @@
 
         <!--JS GLOBAL VARIABLE--->
         <script type="text/javascript">
+
+          // setting screen mode based on users preference
+          //localStorage.setItem('screen_mode', 'Dark')
+
           var user = "{{request.user.username}}"
 
           var csrf_token = "{{csrf_token}}"
 
           // URL
+          var screen_mode = "{% url 'user:screen_mode' %}"
           var like_post_url  = "{% url 'blog:like' %}"
           var like_count_url = "{% url 'blog:likesCount' %}"
           var comment_post_url = "{% url 'blog:comment' %}"
@@ -68,6 +73,8 @@
 
         <!---JS LINK---->
         <script>
+          var initialTheme;
+          
           AOS.init({
             duration: 1200,
           })
@@ -83,6 +90,12 @@
 
           window.addEventListener('load', () => {
             userStatus(navigator.onLine);
+            getScreenMode();
+            
+            //switching button's mode
+            $('.darkMode-wrap').click(function(){
+              postScreenMode();
+            })            
           })
         </script>
         <script src="{% static '/js/bootstrap.js' %}"></script>

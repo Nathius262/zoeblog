@@ -1,14 +1,14 @@
 
 {% load mptt_tags %}
-<div class="flex-shrink-0 p-3" style="width: 280px; color: aliceblue;">
+<div class="flex-shrink-0 p-3 categorylist">
     <div class="d-flex align-items-center pb-3 mb-2">
       <span class="fs-4 fw-bold">CATEGORY</span>
 	</div>
     <ul class="list-unstyled ps-0">
 		{% recursetree category %}
       <li class="mb-1">
-        <div class="text-light fs-5 d-flex align-items-center justify-content-between rounded border-0 dropdownBtn" {% if not node.is_leaf_node %}data-bs-toggle="collapse" data-bs-target="#{{node.category_name}}" aria-expanded="false"{%endif%}>
-			<span> {% if node.level == 0 and not node.is_leaf_node %}  {{node.category_name|title}}{% else %}<a href="/blog/category/{{node.category_name}}" class="fs-5 text-light fw-light">  {{node.category_name|title}}</a>{%endif%}</span>
+        <div class="fs-5 d-flex align-items-center justify-content-between rounded border-0 dropdownBtn" {% if not node.is_leaf_node %}data-bs-toggle="collapse" data-bs-target="#{{node.category_name}}" aria-expanded="false"{%endif%}>
+			<span> {% if node.level == 0 and not node.is_leaf_node %}  {{node.category_name|title}}{% else %}<a href="/blog/category/{{node.category_name}}" class="fs-5 fw-light">  {{node.category_name|title}}</a>{%endif%}</span>
 			{% if not node.is_leaf_node %}<i class="fa fa-caret-right ms-5"> </i>{%endif%}
 		</div>
 		{% if not node.is_leaf_node %}
@@ -16,7 +16,7 @@
 			<ul class="ms-4 list-unstyled fw-normal pb-1 small">
 				<li class="mt-1">
 					<div class="fs-5 d-inline-flex align-items-center" >
-						<a href="/blog/category/{{node.category_name}}" class="text-light fw-light">{{node.category_name|title}}</a>
+						<a href="/blog/category/{{node.category_name}}" class=" fw-light">{{node.category_name|title}}</a>
 					</div>
 				</li>
 				{{children}}

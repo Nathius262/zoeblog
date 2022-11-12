@@ -1,7 +1,7 @@
 from django.contrib import admin
 from . import models
 from django.contrib.auth.admin import UserAdmin
-from .models import Account, Follower
+from .models import *
 
 
 # Register your models here.
@@ -15,10 +15,17 @@ class AccountAdmin(UserAdmin):
     fieldsets = ()
 
 
-@admin.register(models.Follower)
+@admin.register(Follower)
 class FollowAdmin(admin.ModelAdmin):
     list_display = ('follower', 'user')
     search_fields = ('follower', 'user')
+
+@admin.register(UserPreferedScreenMode)
+class ScreenModeAdmin(admin.ModelAdmin):
+    list_display = ('user', 'mode')
+    search_fields = ('user', 'mode')
+
+
 
 
 admin.site.register(Account, AccountAdmin)

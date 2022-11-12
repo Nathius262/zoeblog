@@ -16,9 +16,9 @@ home
   <section class="m-2  d-md-block">
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active car" aria-current="true" aria-label="Slide 1"></button>
           {% for p in popular_posts %}
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{forloop.counter}}" aria-label="Slide {{forloop.counter|add:1}}"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{forloop.counter}}" class=" car" aria-label="Slide {{forloop.counter|add:1}}"></button>
           {%endfor%}
       </div>
       <div class="carousel-inner">
@@ -70,7 +70,7 @@ home
 
 <hr>
 
-<section  style="background:#111;" >
+<section  id="home_section">
   <!--POST CATEGORY-->
   <section id="middle">
     <div class="container">
