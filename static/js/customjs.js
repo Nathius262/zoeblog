@@ -459,12 +459,12 @@ function toggleColors() {
 
         //style btn attr
         //remove initial class list
-        darkmode.children('button').children('i').removeClass('text-light')
+        darkmode.children('button').children('i').removeClass('fa-sun-o text-light rounded-5 bg-warning p-0')
         darkmode.children('button').removeClass('btn-dark')
         darkmode.removeClass('bg-light')
         s_mode.removeClass('text-light')
         //add new class list
-        darkmode.children('button').children('i').addClass('text-dark')
+        darkmode.children('button').children('i').addClass('fa-moon-o text-dark')
         darkmode.children('button').addClass('btn-light')
         darkmode.addClass('bg-dark')
         s_mode.addClass('text-dark')
@@ -476,18 +476,18 @@ function toggleColors() {
         root.setProperty('--lightgray2', '#b5c3cb');
         root.setProperty('--lightgrey_phover', '#999)');
         root.setProperty('--grey', '#e5e5e5');
-        document.getElementById('s-mode').innerHTML = 'Switch to dark mode'
+        //document.getElementById('s-mode').innerHTML = 'Switch to dark mode'
         initialTheme = false;  
     } else {
 
         //style btn attr
         //remove initial class list
-        darkmode.children('button').children('i').removeClass('text-dark')
+        darkmode.children('button').children('i').removeClass('fa-moon-o text-dark')
         darkmode.children('button').removeClass('btn-light')
         darkmode.removeClass('bg-dark')
         s_mode.removeClass('text-dark')
         //add new class list
-        darkmode.children('button').children('i').addClass('text-light')
+        darkmode.children('button').children('i').addClass('fa-sun-o text-light rounded-5 bg-warning p-0')
         darkmode.children('button').addClass('btn-dark')
         darkmode.addClass('bg-light')
         s_mode.addClass('text-light')
@@ -499,7 +499,7 @@ function toggleColors() {
         root.setProperty('--lightgray2', '#b5c3cb');
         root.setProperty('--lightgrey_phover', '#999)');
         root.setProperty('--grey', '#e5e5e5');
-        document.getElementById('s-mode').innerHTML = 'Switch to light mode'
+        //document.getElementById('s-mode').innerHTML = 'Switch to light mode'
         initialTheme = true;
     }
 }
