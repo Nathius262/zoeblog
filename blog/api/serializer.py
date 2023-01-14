@@ -11,12 +11,12 @@ class BlogPostSerializer(serializers.ModelSerializer):
     author = serializers.CharField(source='author.username', read_only=True)
     category = serializers.SerializerMethodField(read_only=True)
 
+    def get_category(self, obj):
+        category_list=[]
+        for item in obj.category.all():
+            category_list.append(item.category_name)
+        return category_list
+
     class Meta:
         model = BlogPost
         fields = ['title', 'body', 'image', 'category', 'author', 'date_updated', ]
-
-    def get_category(self, obj):
-        a=[]
-        for item in obj.category:
-            a.append(item)
-        return dict(a)
