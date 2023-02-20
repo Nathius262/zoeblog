@@ -11,6 +11,7 @@ sitemaps = {
 
 urlpatterns = [
     path('screen-mode/', screen_mode_view, name='screen_mode'),
+    path('user/status/', user_status, name='user_status'),
     path('account/authenticate/', must_authenticate_view, name='must_authenticate'),
     path('settings', account_view, name="settings"),
     path('<user>/', profile_view, name="profile"),

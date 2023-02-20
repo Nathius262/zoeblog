@@ -1,6 +1,7 @@
 import os
 from allauth.socialaccount.models import SocialAccount
-from django.conf import settings
+import online_users.models
+from datetime import timedelta
 from django.http import JsonResponse
 
 from django.contrib import messages
@@ -50,6 +51,11 @@ def screen_mode_view(request):
     else:
         return JsonResponse({'response': 'user not authentiacted'}, safe=False)
 
+def user_status(self):
+    
+  user_status = online_users.models.OnlineUserActivity.get_user_activities(timedelta(seconds=60))
+  users = (user for user in  user_status)
+  context = {"online_users"}
 
 def profile_view(request, user):
     profile_id = get_object_or_404(Account, username=user)
